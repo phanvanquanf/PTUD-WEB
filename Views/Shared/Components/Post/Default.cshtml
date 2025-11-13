@@ -1,0 +1,101 @@
+@using aznews.Models;
+@using aznews.Utilities;
+@model IList<viewPostMenu>;
+
+<!-- Trending Area Start -->
+<div class="trending-area fix">
+    <div class="container">
+        <div class="trending-main">
+            <!-- Trending Tittle -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="trending-tittle">
+                        <strong>Khóa học nổi bật</strong>
+                        <!-- <p>Rem ipsum dolor sit amet, consectetur adipisicing elit.</p> -->
+                        <div class="trending-animated">
+                            <ul id="js-news" class="js-hidden">
+                                @{
+                                    var tren = Model.Take(3).ToList();
+                                    foreach (var t in tren)
+                                    {   
+                                        string url = Functions.TitleSlugGeneration("post", t.Title, t.PostID);
+                                        <li class="news-item"><a href="/@url">@t.Title</a></li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Trending Top -->
+                    <div class="trending-top mb-30">
+                        <div class="trend-top-img">
+                            @{
+                                var firstNews = Model.Take(1).ToList();
+                                foreach (var f in firstNews)
+                                {   
+                                    string url = Functions.TitleSlugGeneration("post", f.Title, f.PostID);
+                                    <img style="width: 770px !important; height: 441px !important; object-fit: cover;" src="@f.Images" alt="">
+                                    <div class="trend-top-cap">
+                                        <span>@f.MenuName</span>
+                                        <h2><a href="/@url">@f.Title
+                                                <br>
+                                                @f.Abstract</a></h2>
+                                    </div>
+                                    Model.RemoveAt(0);
+                                }
+                            }
+                        </div>
+                    </div>
+                    <!-- Trending Bottom -->
+                    <div class="trending-bottom">
+                        <div class="row">
+                            @{
+                                var threeNews = Model.Take(3).ToList();
+                                foreach (var t in threeNews)
+                                {
+                                    string url = Functions.TitleSlugGeneration("post", t.Title, t.PostID);
+                                    <div class="col-lg-4">
+                                        <div class="single-bottom mb-35">
+                                            <div class="trend-bottom-img mb-30">
+                                                <img style="width: 237px !important; height: 158px !important; object-fit: cover; " src="@t.Images"
+                                                    alt="">
+                                            </div>
+                                            <div class="trend-bottom-cap">
+                                                <span class="color1">@t.MenuName</span>
+                                                <h4><a href="/@url">@t.Title</a></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- Right content -->
+                <div class="col-lg-4">
+                    @{
+                        var fiveRight = Model.Skip(3).Take(5).ToList();
+                        foreach (var r in fiveRight)
+                        {   
+                            string url = Functions.TitleSlugGeneration("post", r.Title, r.PostID);
+                            <div class="trand-right-single d-flex">
+                                <div class="trand-right-img">
+                                    <img style="height: 100px !important; width: 120px !important; object-fit: cover;"
+                                        src="@r.Images" alt="">
+                                </div>
+                                <div class="trand-right-cap">
+                                    <span class="color1">@r.MenuName</span>
+                                    <h4><a href="/@url">@r.Title</a></h4>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Trending Area End -->

@@ -1,0 +1,138 @@
+@using aznews.Models;
+@model IList<tblBaiGiang>;
+
+@{
+    Layout = "~/Areas/Teacher/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle mb-4">
+        <h2 class="text-uppercase font-weight-bold text-primary text-center">
+            Chi tiết bài giảng
+        </h2>
+    </div>
+    <div class="container shadow p-5 my-5 bg-light rounded">
+        @foreach (var bg in Model)
+        {
+            <div class="row g-4">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label font-weight-bold">Tên khóa học:</label>
+                    <p class="form-control-plaintext">@bg.KhoaHoc?.TenKH</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label font-weight-bold">Tác giả:</label>
+                    <p class="form-control-plaintext">@bg.GiaoVien?.HoTen</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Tên bài học:</label>
+                    <p class="form-control-plaintext">@bg.TenBaiHoc</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">ID Video:</label>
+                    <p class="form-control-plaintext">@bg.Link</p>
+                </div>
+
+                <div class="video-player">
+                    <label class="form-label font-weight-bold">Xem trước Video:</label>
+                    <iframe id="video" src="https://www.youtube.com/embed/@bg.Link" width="100%" height="360"
+                        frameborder="0" allowfullscreen></iframe>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <label class="form-label font-weight-bold">Mô tả:</label>
+                    <div class="form-control-plaintext">@bg.MoTa</div>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <label class="form-label font-weight-bold">Nội dung:</label>
+                    <div class="form-control-plaintext">@bg.NDung</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Số lượt học:</label>
+                    <p class="form-control-plaintext">@bg.SoLuotHoc</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Thứ tự:</label>
+                    <p class="form-control-plaintext">@bg.ThuTu</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label font-weight-bold">Tên chương:</label>
+                    <p class="form-control-plaintext">@bg.Chuong?.TenChuong</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Thời lượng:</label>
+                    <p class="form-control-plaintext">@bg.ThoiLuong</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Trạng thái:</label>
+                    <p class="form-control-plaintext">
+                        @bg.HoatDong
+                    </p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label font-weight-bold">Menu:</label>
+                    <p class="form-control-plaintext">@bg.Menu?.MenuName</p>
+                </div>
+
+                <div class="col-12 text-center mt-4">
+                    <a href="~/Teacher/BaiGiang" class="btn btn-outline-primary btn-lg w-50">
+                        <i class="bi bi-arrow-left"></i> Quay lại
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</main>
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7fa;
+    }
+
+    .pagetitle h2 {
+        color: #2c3e50;
+    }
+
+    .container {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .form-control-plaintext {
+        font-size: 14px;
+        color: #34495e;
+        background: #ecf0f1;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .btn-outline-primary {
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #3498db;
+        color: white;
+    }
+
+    a {
+        text-decoration: none !important;
+    }
+</style>

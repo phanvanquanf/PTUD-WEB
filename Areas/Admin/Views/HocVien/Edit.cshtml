@@ -1,0 +1,265 @@
+@using aznews.Utilities
+@model aznews.Models.tblHocVien
+
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    var summerNote = new aznews.Areas.Admin.Models.SummerNote("#NoiDung");
+    <partial name="_SummerNote" model="summerNote" />
+}
+
+<main id="main" class="main">
+    <div class="pagetitle mb-4">
+        <h2 class="text-uppercase font-weight-bold text-primary">Sửa thông tin học viên</h2>
+    </div>
+    <div class="container shadow-lg p-5 my-5 bg-white rounded">
+        <form method="Post" asp-action="Edit" enctype="multipart/form-data">
+            <div class="row">
+                <!-- ID Học Viên -->
+                <div class="col-md-6 mb-3">
+                    <label for="IDHocVien" class="form-label">ID Học Viên</label>
+                    <input type="text" class="form-control" asp-for="IDHocVien" value="@Model.IDHocVien" required>
+                    <span asp-validation-for="IDHocVien" class="text-danger"></span>
+                </div>
+
+                <!-- Ảnh Theo Dõi -->
+                <div class="col-md-6 mb-3">
+                    <label for="AnhHocVien" class="form-label">Ảnh học viên</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-primary" type="button" onclick="openDialog('AnhHocVien')">Chọn
+                            ảnh</button>
+                        <input type="text" class="form-control" asp-for="AnhDaiDien" id="AnhHocVien"
+                            aria-describedby="button-addon2" />
+                    </div>
+                </div>
+
+                <!-- Họ và tên -->
+                <div class="col-md-6 mb-3">
+                    <label for="HoTenHV" class="form-label">Họ và tên</label>
+                    <input type="text" class="form-control" asp-for="HoTenHV" placeholder="Nhập họ và tên học viên..."
+                        value="@Model.HoTenHV" required>
+                    <span asp-validation-for="HoTenHV" class="text-danger"></span>
+                </div>
+
+                <!-- Ngày sinh -->
+                <div class="col-md-6 mb-3">
+                    <label for="NgaySinh" class="form-label">Ngày sinh</label>
+                    <input type="date" class="form-control" asp-for="NgaySinh"
+                        value="@Model.NgaySinh.ToString("yyyy-MM-dd")" required>
+                    <span asp-validation-for="NgaySinh" class="text-danger"></span>
+                </div>
+
+                <!-- Giới tính -->
+                <div class="col-md-6 mb-3">
+                    <label for="GioiTinh" class="form-label">Giới tính</label>
+                    <select asp-for="GioiTinh" class="form-select">
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                    </select>
+                    <span asp-validation-for="GioiTinh" class="text-danger"></span>
+                </div>
+
+                <!-- Số điện thoại -->
+                <div class="col-md-6 mb-3">
+                    <label for="SoDienThoai" class="form-label">Số điện thoại</label>
+                    <input type="text" class="form-control" asp-for="SoDienThoai" placeholder="Nhập số điện thoại..."
+                        value="@Model.SoDienThoai" required>
+                    <span asp-validation-for="SoDienThoai" class="text-danger"></span>
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-6 mb-3">
+                    <label for="Email" class="form-label">Email</label>
+                    <input type="email" class="form-control" asp-for="Email" placeholder="Nhập địa chỉ email..."
+                        value="@Model.Email" required>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <!-- Địa chỉ -->
+                <div class="col-md-6 mb-3">
+                    <label for="DiaChi" class="form-label">Địa chỉ</label>
+                    <input type="text" class="form-control" asp-for="DiaChi" placeholder="Nhập địa chỉ học viên..."
+                        value="@Model.DiaChi">
+                    <span asp-validation-for="DiaChi" class="text-danger"></span>
+                </div>
+
+                <!-- Ngày đăng ký -->
+                <div class="col-md-6 mb-3">
+                    <label for="NgayDangKy" class="form-label">Ngày đăng ký</label>
+                    <input type="date" class="form-control" asp-for="NgayDangKy"
+                        value="@Model.NgayDangKy.ToString("yyyy-MM-dd")" readonly>
+                </div>
+
+                <!-- Trạng thái -->
+                <div class="col-md-6 mb-3">
+                    <label for="TrangThai" class="form-label">Trạng thái</label>
+                    <select asp-for="TrangThai" class="form-select">
+                        <option value="0">Hoạt động</option>
+                        <option value="1">Không hoạt động</option>
+                    </select>
+                </div>
+
+                <!-- Lớp -->
+                <div class="col-md-6 mb-3">
+                    <label for="Lop" class="form-label">Lớp</label>
+                    <select asp-for="Lop" class="form-select">
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+
+                <!-- Menu Selection -->
+                <div class="col-md-6 mb-3">
+                    <label for="MenuID" class="form-label">Menu name</label>
+                    <select asp-for="MenuID" class="form-control custom-select"
+                        asp-items="@(new SelectList(ViewBag.mnList, "Value", "Text"))" id="MenuID" disabled>
+                        <option value="1">Học viên</option>
+                    </select>
+                    <input type="hidden" asp-for="MenuID" value="5" />
+                </div>
+
+                <!-- Nút lưu -->
+                <div class="col-12 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg w-100 py-2">Cập nhật thông tin</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+
+<style>
+    /* Body and Page Styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7fa;
+    }
+
+    .pagetitle h2 {
+        color: #2c3e50;
+    }
+
+    .container {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control,
+    .form-select,
+    .custom-select {
+        border-radius: 8px;
+        font-size: 14px;
+        padding: 10px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .btn-outline-primary {
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        color: white;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+    }
+
+    .input-group {
+        border-radius: 8px;
+    }
+
+    /* Validation Error Styling */
+    .text-danger {
+        font-size: 12px;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.7);
+        border-color: #3498db;
+    }
+
+    a {
+        text-decoration: none !important;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        var isSoDienThoaiValid = true;
+        var isEmailValid = true;
+        var currentSoDienThoai = '@Model.SoDienThoai'; // Giá trị cũ số điện thoại
+        var currentEmail = '@Model.Email'; // Giá trị cũ email
+
+        function toggleSubmitButton() {
+            if (isSoDienThoaiValid && isEmailValid) {
+                $('.btn-primary').prop('disabled', false);
+            } else {
+                $('.btn-primary').prop('disabled', true);
+            }
+        }
+
+        $('#SoDienThoai, #Email').on('blur', function () {
+            var field = $(this).attr('id');
+            var value = $(this).val();
+
+            // Kiểm tra xem giá trị mới có trùng với giá trị cũ không
+            if ((field === 'SoDienThoai' && value === currentSoDienThoai) || (field === 'Email' && value === currentEmail)) {
+                // Nếu đúng thì bỏ qua việc kiểm tra trùng lặp
+                $('#' + field).removeClass('is-invalid');
+                $('#' + field).next('.text-danger').text('');
+                if (field === 'SoDienThoai') isSoDienThoaiValid = true;
+                if (field === 'Email') isEmailValid = true;
+                toggleSubmitButton();
+                return; // Dừng lại và không kiểm tra trùng lặp nữa
+            }
+
+            // Tiến hành kiểm tra trùng lặp nếu giá trị khác cũ
+            $.ajax({
+                url: '/Admin/HocVien/CheckUnique',
+                type: 'POST',
+                data: { field: field, value: value },
+                success: function (response) {
+                    if (!response.isUnique) {
+                        $('#' + field).addClass('is-invalid');
+                        $('#' + field).next('.text-danger').text(response.message);
+
+                        if (field === 'SoDienThoai') isSoDienThoaiValid = false;
+                        if (field === 'Email') isEmailValid = false;
+                    } else {
+                        $('#' + field).removeClass('is-invalid');
+                        $('#' + field).next('.text-danger').text('');
+
+                        if (field === 'SoDienThoai') isSoDienThoaiValid = true;
+                        if (field === 'Email') isEmailValid = true;
+                    }
+
+                    toggleSubmitButton();
+                },
+                error: function () {
+                    console.error("Có lỗi xảy ra khi kiểm tra tính duy nhất.");
+                }
+            });
+        });
+
+        toggleSubmitButton();
+    });
+
+</script>

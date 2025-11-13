@@ -1,0 +1,165 @@
+@model aznews.Models.tblMenu
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<main id="main" class="main">
+    <div class="pagetitle text-center">
+        <h2 class="text-primary">Thêm một menu</h2>
+    </div>
+    <div class="form-container">
+        <form method="Post" asp-action="Create">
+            <div class="form-row">
+                <div class="form-group col-md-6 mb-4">
+                    <label class="text-secondary">Menu name</label>
+                    <input type="text" class="form-control form-control-lg" asp-for="MenuName"
+                        placeholder="Nhập tên menu...">
+                    <span asp-validation-for="MenuName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-6 mb-4">
+                    <label class="text-secondary">Levels</label>
+                    <select asp-for="Levels" class="form-select form-select-lg">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6 mb-4">
+                    <label class="text-secondary">ParentID</label>
+                    <select asp-for="ParentID" class="form-control form-control-lg"
+                        asp-items="@(new SelectList(ViewBag.mnList, "Value", "Text"))">
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6 mb-4">
+                    <label class="text-secondary">Link</label>
+                    <input type="text" class="form-control form-control-lg" asp-for="Link"
+                        placeholder="Nhập liên kết...">
+                </div>
+
+                <div class="form-group col-md-6 mb-4">
+                    <label class="text-secondary">Thứ tự</label>
+                    <input type="text" class="form-control form-control-lg" asp-for="MenuOrder" value="0"
+                        placeholder="Nhập thứ tự của menu...">
+                </div>
+
+                <div class="form-group col-md-6 mb-4">
+                    <label class="text-secondary">Vị trí</label>
+                    <input type="text" class="form-control form-control-lg" asp-for="Position" value="1"
+                        placeholder="Nhập vị trí...">
+                </div>
+
+                <div class="form-group col-md-6 mb-4">
+                    <label class="form-label font-weight-bold text-secondary">Hoạt động</label>
+                    <select asp-for="IsActive" class="form-select form-select-lg" id="IsActive">
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <a asp-controller="Menu" asp-action="Index" class="btn btn-warning p-2 d-flex align-items-center">
+                    <i class="bi bi-arrow-left-circle"></i> Quay lại
+                </a>
+
+                <button type="submit" class="btn btn-success p-2 d-flex align-items-center">
+                    <i class="bi bi-file-plus-fill"></i> Lưu thông tin
+                </button>
+            </div>
+        </form>
+    </div>
+
+</main>
+
+<!-- Thêm CSS vào đây -->
+<style>
+    /* Các thành phần form */
+    .form-container {
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    .form-row {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        width: 48%;
+        /* Đảm bảo mỗi phần chiếm 1/2 chiều rộng */
+    }
+
+    .form-group label {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 10px;
+    }
+
+    /* Các input, select */
+    .form-control,
+    .form-select {
+        font-size: 1.1rem;
+        padding: 12px 15px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    }
+
+    /* Các nút */
+    .btn {
+        font-size: 1.1rem;
+        padding: 12px 20px;
+        border-radius: 5px;
+        text-transform: uppercase;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        color: #333;
+        border: none;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+        cursor: pointer;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+        border: none;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        cursor: pointer;
+    }
+
+    .btn i {
+        margin-right: 8px;
+    }
+
+    /* Căn chỉnh các nút */
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+</style>

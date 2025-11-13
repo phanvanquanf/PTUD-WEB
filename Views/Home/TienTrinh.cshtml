@@ -1,0 +1,121 @@
+@using aznews.Models
+@using aznews.Utilities
+@model IList<viewTienTrinh>
+
+<style>
+    .list-group {
+        margin-bottom: 30px;
+    }
+
+    .progress-bar {
+        transition: width 0.5s;
+    }
+
+    a {
+        color: #212529;
+    }
+
+    a:hover {
+        color: #6f6f70;
+    }
+</style>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Tiến trình Học tập</h2>
+
+    <div class="progress mb-3">
+        <div id="total-progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
+            aria-valuemin="0" aria-valuemax="100">
+            0% Hoàn thành
+        </div>
+    </div>
+
+    <ul class="list-group">
+        @{
+            var khoahoc = Model.GroupBy(bh => bh.TenKH);
+
+            foreach (var baiHoc in khoahoc)
+            {
+                <li class="list-group-item">
+                    <h5 class="font-weight-bold">@baiHoc.Key</h5>
+                    <ul class="list-group pl-3">
+                        @{
+                            var chuongs = baiHoc.GroupBy(ch => ch.TenChuong);
+
+                            foreach (var chuong in chuongs)
+                            {
+                                <li class="list-group-item">
+                                    <h6 class="font-weight-bold">@chuong.Key</h6>
+                                    <ul class="list-group pl-3">
+                                        @foreach (var item in chuong)
+                                        {
+                                            string url = Functions.TitleSlugGeneration("BaiGiang", item.TenBaiHoc, item.IDKhoaHoc);
+                                            <li class="list-group-item d-flex justify-content-between align-items-center"
+                                                data-video-id="@item.Link">
+                                                <a href="/@url">@Html.DisplayFor(model => item.TenBaiHoc)</a>
+                                                <div class="progress" style="width: 70%;">
+                                                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
+                                                        aria-valuemin="0" aria-valuemax="100">
+                                                        0%
+                                                    </div>
+                                                </div>
+                                                <span class="badge badge-pill progress-status">Chưa học</span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </li>
+            }
+        }
+    </ul>
+</div>
+
+<script>
+    window.onload = function () {
+        var totalProgress = 0;
+        var totalItems = 0;
+
+        document.querySelectorAll('.list-group-item[data-video-id]').forEach(item => {
+            const videoId = item.getAttribute('data-video-id');
+            const savedProgress = parseFloat(localStorage.getItem(`progress_${videoId}`)) || 0;
+            totalProgress += savedProgress;
+            totalItems++;
+
+            // Cập nhật thanh tiến trình cho từng bài học
+            const progressBar = item.querySelector('.progress-bar');
+            const progressStatus = item.querySelector('.progress-status');
+            if (progressBar) {
+                const progressPercentage = Math.round(savedProgress);
+                progressBar.style.width = `${progressPercentage}%`;
+                progressBar.setAttribute('aria-valuenow', progressPercentage);
+                progressBar.innerText = `${progressPercentage}%`;
+
+                // Cập nhật nhãn trạng thái dựa trên savedProgress
+                if (progressPercentage === 100) {
+                    progressStatus.className = 'badge badge-success badge-pill progress-status';
+                    progressStatus.innerText = 'Hoàn thành';
+                } else if (progressPercentage > 0 && progressPercentage < 100) {
+                    progressStatus.className = 'badge badge-warning badge-pill progress-status';
+                    progressStatus.innerText = 'Đang học';
+                } else {
+                    progressStatus.className = 'badge badge-primary badge-pill progress-status';
+                    progressStatus.innerText = 'Chưa học';
+                }
+            }
+        });
+
+        // Tính tổng tiến trình trung bình và cập nhật thanh tiến trình tổng
+        if (totalItems > 0) {
+            const averageProgress = totalProgress / totalItems;
+            const totalProgressBar = document.getElementById('total-progress-bar');
+            if (totalProgressBar) {
+                totalProgressBar.style.width = `${averageProgress}%`;
+                totalProgressBar.setAttribute('aria-valuenow', averageProgress);
+                totalProgressBar.innerText = `${Math.round(averageProgress)}% Hoàn thành`;
+            }
+        }
+    };
+</script>

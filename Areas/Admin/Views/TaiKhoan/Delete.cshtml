@@ -1,0 +1,107 @@
+@using aznews.Models;
+@model aznews.Models.AdminUser
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle mb-4">
+        <h2 class="text-uppercase font-weight-bold text-primary text-center">
+            Xóa Tài Khoản
+        </h2>
+    </div>
+    <div class="container shadow p-5 my-5 bg-light rounded">
+        <form method="POST" asp-action="Delete" enctype="multipart/form-data">
+            <div class="row g-4">
+                <div class="col-12 text-center">
+                    <h4>Bạn có chắc chắn muốn xóa tài khoản này không?</h4>
+                    <p class="text-danger">Lưu ý: Tài khoản sẽ bị xóa vĩnh viễn!</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="TenDangNhap" class="form-label">Tên Đăng Nhập</label>
+                    <input type="text" class="form-control" asp-for="TenDangNhap" readonly />
+                </div>
+
+                <div class="col-md-6">
+                    <label for="Email" class="form-label">Email</label>
+                    <input type="email" class="form-control" asp-for="Email" readonly />
+                </div>
+
+                <div class="col-md-6">
+                    <label for="HoVaTen" class="form-label">Họ và Tên</label>
+                    <input type="text" class="form-control" asp-for="HoVaTen" readonly />
+                </div>
+
+                <div class="text-center">
+                    <a href="javascript:history.back()" class="btn btn-outline-secondary btn-lg px-4 py-2 mr-3">
+                        <i class="bi bi-arrow-left-circle"></i> Quay lại
+                    </a>
+                    <button type="submit" class="btn btn-danger btn-lg px-4 py-2">
+                        <i class="bi bi-trash"></i> Xóa Khóa Học
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+
+<style>
+    body {
+        background-color: #f9fafc;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .pagetitle h2 {
+        color: #e74c3c;
+    }
+
+    .container {
+        border-radius: 15px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .form-control[disabled] {
+        background-color: #f8f9fa;
+        color: #495057;
+        border: 1px solid #ced4da;
+        cursor: not-allowed;
+    }
+
+    .btn-outline-secondary {
+        border-radius: 10px;
+        color: #6c757d;
+        border: 2px solid #6c757d;
+        transition: all 0.3s;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-danger {
+        border-radius: 10px;
+        font-weight: bold;
+        background-color: #e74c3c;
+        border: none;
+        transition: all 0.3s;
+    }
+
+    .btn-danger:hover {
+        background-color: #c0392b;
+    }
+
+    .alert-warning {
+        font-size: 16px;
+        border-radius: 10px;
+        background-color: #fff3cd;
+        border: 1px solid #ffeeba;
+    }
+</style>

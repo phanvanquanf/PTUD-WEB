@@ -1,0 +1,445 @@
+@model IList<aznews.Models.viewDienDan>
+<!--================Blog Area =================-->
+
+<style>
+    .section-padding {
+        padding: 10px;
+    }
+
+    .form-contact {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+    }
+
+    .form-contact:hover {
+        transform: translateY(-2px);
+    }
+
+    .form-control {
+        border: 2px solid #ced4da;
+        border-radius: 5px;
+        padding: 15px;
+        font-size: 1rem;
+        color: #495057;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .form-control:focus {
+        border-color: #ff4400;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    .form-control::placeholder {
+        color: #6c757d;
+        /* Màu placeholder */
+        opacity: 1;
+        /* Thay đổi độ mờ */
+    }
+
+    .form-group.mt-3 {
+        text-align: center;
+        /* Canh giữa nút gửi */
+    }
+
+    <style>.button-contactForm {
+        background-color: #ff7f00;
+        /* Màu cam */
+        color: #ffffff;
+        /* Màu chữ trắng */
+        padding: 15px 50px;
+        /* Khoảng cách bên trong */
+        border-radius: 4px;
+        /* Bo góc nhẹ */
+        border: none;
+        /* Không viền */
+        transition: background-color 0.3s, transform 0.3s;
+        /* Hiệu ứng chuyển màu và nâng lên */
+        font-size: 1rem;
+        /* Kích thước chữ */
+        cursor: pointer;
+        /* Con trỏ khi hover */
+        width: auto;
+        /* Chiều rộng tự động */
+        min-width: 120px;
+        /* Chiều rộng tối thiểu */
+    }
+
+    .button-contactForm:hover {
+        background-color: #cc5200;
+        /* Màu khi hover */
+        /* Hiệu ứng nâng lên */
+
+    }
+</style>
+<section class="blog_area single-post-area section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 posts-list">
+                <div class="single-post">
+                        @foreach (var item in Model)
+                        {
+                        <div class="feature-img">
+                            <img class="img-fluid" src="@Html.DisplayFor(model => item.Anh)" width="750" height="375">
+                        </div>
+
+                        <div class="blog_details">
+                            <h2>@item.TieuDe</h2>
+                            <ul class="blog-info-link mt-3 mb-4">
+                                <li><a href="#"><i class="fa fa-user"></i>@Html.DisplayFor(model => item.MenuName)</a></li>
+                                <li><a href="#"><i class="fa fa-comments"></i> 05 Bình luận</a></li>
+                            </ul>
+                            <p class="excert">
+                                    @Html.Raw(@item.NoiDung)
+                            </p>
+                            <div class="quote-wrapper">
+                                <div class="quotes">
+                                        @Html.DisplayFor(model => item.TieuDe)
+                                </div>
+                            </div>
+                        </div>
+                        }
+                </div>
+
+                <div class="navigation-top">
+                    <div class="d-sm-flex justify-content-between text-center">
+                        <p class="like-info"><span class="align-middle"><i class="fa fa-heart"></i></span> Lily và 4
+                            người đã thích</p>
+                        <div class="col-sm-4 text-center my-2 my-sm-0">
+                            <!-- <p class="comment-count"><span class="align-middle"><i class="fa fa-comment"></i></span> 06 Comments</p> -->
+                        </div>
+                        <ul class="social-icons">
+                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-dribbble"></i></a></li>
+                            <li><a href="#"><i class="fab fa-behance"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="navigation-area">
+                        <div class="row">
+                            <div
+                                class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+                                <div class="thumb">
+                                    <a href="#">
+                                        <img class="img-fluid" src="assets/img/motsohinhanh/anh1.jpg" alt="">
+                                    </a>
+                                </div>
+                                <div class="arrow">
+                                    <a href="#">
+                                        <span class="lnr text-white ti-arrow-left"></span>
+                                    </a>
+                                </div>
+                                <div class="detials">
+                                    <b>Bài đăng trước</b>
+                                </div>
+                            </div>
+                            <div
+                                class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+                                <div class="detials">
+                                    <b>Bài viết tiếp theo</b>
+                                </div>
+                                <div class="arrow">
+                                    <a href="#">
+                                        <span class="lnr text-white ti-arrow-right"></span>
+                                    </a>
+                                </div>
+                                <div class="thumb">
+                                    <a href="#">
+                                        <img class="img-fluid" src="assets/img/motsohinhanh/anh1.jpg" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="blog-author">
+                    <div class="media align-items-center">
+                        <img src="assets/img/blog/author.png" alt="">
+                        <div class="media-body">
+                            <a href="#">
+                                <h4>Harvard Milan</h4>
+                            </a>
+                            <p>Bài viết chia sẻ về sự thống trị của chúng ta đối với vạn vật, từ loài cá cho đến những
+                                điều nhỏ bé. Một thông điệp được gửi đi, mời gọi tất cả cùng suy ngẫm và chia sẻ.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comments-area">
+                    <h4>05 Bình luận</h4>
+
+                    <div class="comment-list">
+                        <div class="single-comment justify-content-between d-flex">
+                            <div class="user justify-content-between d-flex">
+                                <div class="thumb">
+                                    <img src="assets/img/comment/comment_1.png" alt="">
+                                </div>
+                                <div class="desc">
+                                    <p class="comment">
+                                        Thật tuyệt vời khi thấy sự phong phú của đại dương và cỏ xanh sau một đêm mát
+                                        mẻ. Thiên nhiên thật đẹp và đáng kinh ngạc!
+                                    </p>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <h5>
+                                                <a href="#">Emilly Blunt</a>
+                                            </h5>
+                                            <p class="date">Ngày 4 tháng 12, 2017 lúc 3:12 chiều</p>
+                                        </div>
+                                        <div class="reply-btn">
+                                            <a href="#" class="btn-reply text-uppercase">Trả lời</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comment-list">
+                        <div class="single-comment justify-content-between d-flex">
+                            <div class="user justify-content-between d-flex">
+                                <div class="thumb">
+                                    <img src="assets/img/comment/comment_2.png" alt="">
+                                </div>
+                                <div class="desc">
+                                    <p class="comment">
+                                        Mình đồng ý, thiên nhiên thật kỳ diệu và luôn khiến chúng ta cảm thấy yên bình
+                                        mỗi khi quan sát.
+                                    </p>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <h5>
+                                                <a href="#">John Doe</a>
+                                            </h5>
+                                            <p class="date">Ngày 4 tháng 12, 2017 lúc 4:15 chiều</p>
+                                        </div>
+                                        <div class="reply-btn">
+                                            <a href="#" class="btn-reply text-uppercase">Trả lời</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comment-list">
+                        <div class="single-comment justify-content-between d-flex">
+                            <div class="user justify-content-between d-flex">
+                                <div class="thumb">
+                                    <img src="assets/img/comment/comment_3.png" alt="">
+                                </div>
+                                <div class="desc">
+                                    <p class="comment">
+                                        Mỗi lần ngắm nhìn biển cả và cỏ xanh, mình cảm thấy lòng nhẹ nhàng và bình yên
+                                        hơn bao giờ hết.
+                                    </p>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <h5>
+                                                <a href="#">Alice Smith</a>
+                                            </h5>
+                                            <p class="date">Ngày 4 tháng 12, 2017 lúc 5:30 chiều</p>
+                                        </div>
+                                        <div class="reply-btn">
+                                            <a href="#" class="btn-reply text-uppercase">Trả lời</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comment-form">
+                    <h4>Bình luận</h4>
+                    <form class="form-contact comment_form" action="#" id="commentForm">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9"
+                                        placeholder="Viết bình luận"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input class="form-control" name="name" id="name" type="text" placeholder="Họ tên">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input class="form-control" name="email" id="email" type="email"
+                                        placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <input class="form-control" name="website" id="website" type="text"
+                                        placeholder="Website">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="button button-contactForm btn_1 boxed-btn">Gửi</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="blog_right_sidebar">
+                    <aside class="single_sidebar_widget search_widget">
+                        <form action="#">
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder='Từ khóa'
+                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
+                                    <div class="input-group-append">
+                                        <button class="btns" type="button"><i class="ti-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                type="submit">Tìm kiếm</button>
+                        </form>
+                    </aside>
+                    <aside class="single_sidebar_widget post_category_widget">
+                        <h4 class="widget_title">Thể loại</h4>
+                        <ul class="list cat-list">
+                            <li>
+                                <a href="#" class="d-flex">
+                                    <p>Bí Kíp</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="d-flex">
+                                    <p>Sự Kiện</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="d-flex">
+                                    <p>Tin Tức</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </aside>
+
+                    <aside class="single_sidebar_widget popular_post_widget">
+                        <h3 class="widget_title">Bài viết đang xem</h3>
+                            @foreach (var bviet in Model)
+                            {
+                            <div class="media post_item">
+                                <img src="@Html.DisplayFor(model => bviet.Anh)"
+                                    alt="@Html.DisplayFor(model => bviet.TenBaiViet)" width="80" height="80">
+                                <div class="media-body">
+                                    <a href="#">
+                                        <h3>@Html.DisplayFor(model => bviet.TenBaiViet)</h3>
+                                    </a>
+                                    <p>
+                                            @if (bviet.NgayTao.HasValue)
+                                            {
+                                                var daysDifference = (DateTime.Now - bviet.NgayTao.Value).Days;
+                                                <text>Đã đăng cách đây @daysDifference ngày</text>
+                                            }
+                                            else
+                                            {
+                                                <text>Ngày đăng không hợp lệ</text>
+                                            }
+                                    </p>
+                                </div>
+                            </div>
+                            }
+                    </aside>
+
+                    <aside class="single_sidebar_widget tag_cloud_widget">
+                        <h4 class="widget_title">Các thẻ</h4>
+                        <ul class="list">
+                            <li>
+                                <a href="#">
+                                    <p>Lớp 10</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <p>Lớp 11</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <p>Lớp 12</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <p>Sự Kiện</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <p>Tin Tức</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <p>Bí Kíp</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="d-flex">
+                                    <p>Khoa Học</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </aside>
+                    <aside class="single_sidebar_widget instagram_feeds">
+                        <h4 class="widget_title">Một số hình ảnh</h4>
+                        <ul class="instagram_row flex-wrap">
+                            <li>
+                                <a href="#">
+                                    <img class="img-fluid" src="assets/img/motsohinhanh/anh1.jpg" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img class="img-fluid" src="assets/img/motsohinhanh/anh2.jpg" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img class="img-fluid" src="assets/img/motsohinhanh/anh3.jpg" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img class="img-fluid" src="assets/img/motsohinhanh/anh4.jpg" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img class="img-fluid" src="assets/img/motsohinhanh/anh5.jpg" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img class="img-fluid" src="assets/img/motsohinhanh/anh6.jpg" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                    </aside>
+                    <aside class="single_sidebar_widget newsletter_widget">
+                        <h4 class="widget_title">Đăng kí nhận tin</h4>
+                        <form action="#">
+                            <div class="form-group">
+                                <input type="email" class="form-control" onfocus="this.placeholder = ''"
+                                    onblur="this.placeholder = 'Enter email'" placeholder='Nhập email' required>
+                            </div>
+                            <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                type="submit">Đăng kí</button>
+                        </form>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================ Blog Area end =================-->

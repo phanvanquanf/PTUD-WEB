@@ -1,0 +1,316 @@
+@model IList<aznews.Models.viewGiangVien>
+@foreach (var gv in Model)
+{
+    <div class="anh-banner-giaovien">
+        <img src="@Html.DisplayFor(model => gv.AnhBia)" alt="Ảnh banner giáo viên" style="width: 50%">
+    </div>
+
+    <div class="theodoi-giaovien">
+        <img src="@Html.DisplayFor(model => gv.AnhTheoDoi)" alt="Ảnh theo dõi giáo viên">
+    </div>
+}
+
+
+<div class="container-fluid1">
+    <div id="main">
+        <div class="wrapper">
+            @foreach (var thongtin in Model)
+            {
+                <div class="left-a">
+                    <div class="image">
+                        <img src="@Html.DisplayFor(model => thongtin.AnhCaNhan)" alt="Văn Trịnh Quỳnh An">
+                    </div>
+                </div>
+
+                <div class="right-a">
+                    <div class="info">
+                        <div class="lbl">
+                            <h3>THÔNG TIN GIÁO VIÊN</h3>
+                        </div>
+                        <div class="details">
+                            <div class="row-a">
+                                <div class="work">
+                                    <div class="icoleft"><span class="ico-user">👤</span></div>
+                                    <div class="text">
+                                        <strong>Họ và tên</strong>
+                                        <p class="big">@Html.DisplayFor(model => thongtin.HoTen)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row-a">
+                                <div class="work">
+                                    <div class="icoleft"><span class="ico-work">🏢</span></div>
+                                    <div class="text">
+                                        <strong>Nơi công tác:</strong>
+                                        <p class="big">@Html.DisplayFor(model => thongtin.NoiCongTac)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row-a">
+                                <div class="left">
+                                    <div class="subject">
+                                        <div class="icoleft"><span class="ico-subject">📘</span></div>
+                                        <div class="text">
+                                            <strong>Môn dạy:</strong>
+                                            <p class="big">@Html.DisplayFor(model => thongtin.Mon)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    <div class="degree">
+                                        <div class="icoleft"><span class="ico-degree">🎓</span></div>
+                                        <div class="text">
+                                            <strong>Học vị:</strong>
+                                            <p class="big">@Html.DisplayFor(model => thongtin.HocVi)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row-a">
+                                <div class="left">
+                                    <div class="email">
+                                        <div class="icoleft"><span class="ico-email">✉️</span></div>
+                                        <div class="text">
+                                            <strong>Email:</strong>
+                                            <p>
+                                                <a href="@Html.DisplayFor(model => thongtin.Email)">@Html.DisplayFor(model =>
+                                                     thongtin.Email)</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    <div class="facebook">
+                                        <div class="icoleft"><span class="ico-facbook">
+                                                <img src="assets/img/icon/facebook.png"> </span></div>
+                                        <div class="text">
+                                            <strong>Facebook:</strong>
+                                            <p>
+                                                <a href="@Html.DisplayFor(model => thongtin.Facebook)">@Html.DisplayFor(model => thongtin.Facebook)</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <h2 class="text-center">NHỮNG CÂU CHUYỆN THÚ VỊ</h2>
+        <div id="teacherStories" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#teacherStories" data-slide-to="0" class=""></li>
+                <li data-target="#teacherStories" data-slide-to="1" class=""></li>
+                <li data-target="#teacherStories" data-slide-to="2" class="active"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-inner">
+                    @foreach (var gt in Model)
+                    {
+                        <!-- Phần 1: Đôi Nét Về Giáo Viên -->
+                        <div class="carousel-item">
+                            <div class="d-flex">
+                                <img src="@gt.AnhCaNhan" alt="@Html.Raw(gt.HoTen))">
+                                <div class="carousel-caption">
+                                    <div class="title">ĐÔI NÉT VỀ GIÁO VIÊN</div>
+                                    <p class="content">
+                                        @Html.Raw(gt.DoiNet))
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phần 2: Thành Tích -->
+                        <div class="carousel-item">
+                            <div class="d-flex">
+                                <img src="@gt.AnhCaNhan" alt="@Html.Raw(gt.HoTen))">
+                                <div class="carousel-caption">
+                                    <div class="title">THÀNH TÍCH</div>
+                                    <p class="content">
+                                        @Html.Raw(gt.ThanhTich))
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phần 3: Phong Cách Giảng Dạy -->
+                        <div class="carousel-item active">
+                            <div class="d-flex">
+                                <img src="@gt.AnhCaNhan" alt="@Html.Raw(gt.HoTen))">
+                                <div class="carousel-caption">
+                                    <div class="title">PHONG CÁCH GIẢNG DẠY</div>
+                                    <p class="content">
+                                        @Html.Raw(gt.PhongCach))
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Điều hướng Carousel -->
+                <a class="carousel-control-prev" href="#teacherStories" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#teacherStories" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <style>
+    .anh-banner-giaovien {
+        text-align: center;
+    }
+
+    .theodoi-giaovien img {
+        width: 100%;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .gv-item {
+        text-align: center;
+        padding: 20px;
+        border: 2px solid #007bff;
+        /* Thay đổi màu viền */
+        border-radius: 5px;
+        /* Bo góc cho phần item */
+    }
+
+    .wrapper {
+        display: flex;
+        justify-content: space-between;
+        background-color: #ffffff;
+        /* Nền trắng cho phần wrapper */
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    .left-a .image img {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 8px;
+    }
+
+
+    .right-a {
+        flex: 1;
+        margin-left: 20px;
+    }
+
+    .info h3 {
+        background-color: #007bff;
+        /* Nền xanh dương cho tiêu đề */
+        color: white;
+        /* Chữ trắng */
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .details {
+        margin-top: 20px;
+    }
+
+    .row-a {
+        display: flex;
+        margin-bottom: 15px;
+    }
+
+    .row-a .work,
+    .row-a .subject,
+    .row-a .degree,
+    .row-a .email,
+    .row-a .facebook {
+        display: flex;
+        align-items: center;
+    }
+
+    .icoleft {
+        margin-right: 10px;
+        font-size: 24px;
+    }
+
+    .text strong {
+        display: block;
+        font-size: 14px;
+        color: #333;
+        /* Chữ đen nhạt cho nội dung */
+    }
+
+    .big {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    a {
+        color: #007bff;
+        /* Liên kết màu xanh dương */
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: none;
+        color: #dd6f2a;
+    }
+
+    .right {
+        margin-left: 20px;
+    }
+
+    .text p {
+        margin: 0;
+    }
+
+    .carousel-item {
+        background-color: #fed557;
+        /* Màu vàng sáng cho item carousel */
+        padding: 20px;
+        border-radius: 5px;
+    }
+
+    .carousel-item img {
+        max-width: 370px;
+        max-height: 370px;
+    }
+
+    .carousel-caption {
+        position: static !important;
+        text-align: left;
+        color: #333;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.9);
+        /* Nền trắng với độ trong suốt */
+        border-radius: 5px;
+        overflow-y: auto !important;
+        max-height: 370px;
+    }
+
+    .title {
+        font-weight: bold;
+        font-size: 24px;
+        color: #0056b3;
+        /* Màu xanh đậm cho tiêu đề */
+        margin-bottom: 15px;
+    }
+
+    .text-center {
+        margin-bottom: 30px;
+    }
+
+    .content {
+        font-size: 16px;
+        color: #333;
+        /* Màu chữ cho nội dung */
+    }
+</style>

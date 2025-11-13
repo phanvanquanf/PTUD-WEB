@@ -1,0 +1,126 @@
+@model aznews.Models.tblBaiTap
+
+<main id="main" class="main">
+    <div class="pagetitle text-center mb-4">
+        <h2 class="text-uppercase font-weight-bold text-danger">Xóa Bài Tập</h2>
+    </div>
+
+    <div class="container shadow p-5 my-5 bg-white rounded">
+        <div class="alert alert-warning text-center mb-5" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <strong>Chú ý:</strong> Bạn sắp xóa bài tập này. Hành động này <strong>không thể hoàn tác!</strong>
+        </div>
+
+        <div class="row gy-4">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TenBaiGiang" class="form-label font-weight-bold text-secondary">Tên Bài Tập</label>
+                    <input type="text" class="form-control bg-light text-dark border-secondary" asp-for="TenBaiTap"
+                        readonly />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TenKH" class="form-label font-weight-bold text-secondary">Tên Chương</label>
+                    <input type="text" class="form-control bg-light text-dark border-secondary"
+                        value="@Model.Chuong?.TenChuong" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TacGia" class="form-label font-weight-bold text-secondary">Tác giả</label>
+                    <input type="text" class="form-control bg-light text-dark border-secondary"
+                        value="@Model.GiaoVien?.HoTen" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TenKH" class="form-label font-weight-bold text-secondary">Khóa học</label>
+                    <input type="text" class="form-control bg-light text-dark border-secondary"
+                        value="@Model.KhoaHoc?.TenKH" />
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <form asp-action="Delete" method="Post" class="mt-5">
+            <input type="hidden" asp-for="IDBaiTap" />
+            <div class="text-center">
+                <a href="javascript:history.back()" class="btn btn-outline-secondary btn-lg px-4 py-2 mr-3">
+                    <i class="bi bi-arrow-left-circle"></i> Quay lại
+                </a>
+                <button type="submit" class="btn btn-danger btn-lg px-4 py-2">
+                    <i class="bi bi-trash"></i> Xóa bài tập
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<style>
+    body {
+        background-color: #f9fafc;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .pagetitle h2 {
+        color: #e74c3c;
+    }
+
+    .container {
+        border-radius: 15px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .form-control[disabled] {
+        background-color: #f8f9fa;
+        color: #495057;
+        border: 1px solid #ced4da;
+        cursor: not-allowed;
+    }
+
+    .btn-outline-secondary {
+        border-radius: 10px;
+        color: #6c757d;
+        border: 2px solid #6c757d;
+        transition: all 0.3s;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-danger {
+        border-radius: 10px;
+        font-weight: bold;
+        background-color: #e74c3c;
+        border: none;
+        transition: all 0.3s;
+    }
+
+    .btn-danger:hover {
+        background-color: #c0392b;
+    }
+
+    .alert-warning {
+        font-size: 16px;
+        border-radius: 10px;
+        background-color: #fff3cd;
+        border: 1px solid #ffeeba;
+    }
+
+    a {
+        text-decoration: none;
+    }
+</style>

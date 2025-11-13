@@ -1,0 +1,213 @@
+@model aznews.Models.AdminUser
+@using aznews.Utilities
+@{
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Trang Đăng Nhập - Quản lý khóa học</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="~/admin/assets/img/favicon.png" rel="icon">
+    <link href="~/admin/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/admin/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/admin/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/admin/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/admin/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="~/admin/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="~/admin/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="~/admin/assets/css/style.css" rel="stylesheet">
+
+    <style>
+        .card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            box-shadow: none;
+            border: 1px solid #ddd;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #2575fc;
+            box-shadow: 0 0 5px rgba(37, 117, 252, 0.5);
+        }
+
+        .form-check-label {
+            font-weight: 400;
+        }
+
+        .btn-primary {
+            background-color: #2575fc;
+            border: none;
+            padding: 10px 15px;
+            width: 100%;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #1e5bc2;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2575fc;
+            color: white;
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .back-to-top:hover {
+            background-color: #1e5bc2;
+        }
+
+        img {
+            width: 200px !important;
+            height: auto;
+        }
+
+        .text-danger {
+            font-size: 18px;
+            color: #d9534f;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <main>
+        <div class="container">
+            <section
+                class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+                            <img src="/admin/assets/img/dangnhap.png" alt="">
+                            <div class="d-flex justify-content-center py-4">
+                                <a href="index.html" class="logo d-flex align-items-center w-auto">
+                                    <span class="d-none d-lg-block">ĐĂNG NHẬP</span>
+                                </a>
+                            </div>
+
+                            <div class="card mb-3">
+
+                                <div class="card-body">
+
+                                    <div class="pt-4 pb-2">
+                                        <h5 class="card-title text-center pb-0 fs-4">Đăng Nhập Tài Khoản Của Bạn</h5>
+                                        <p class="text-center small">Nhập tên đăng nhập và mật khẩu để đăng nhập</p>
+                                    </div>
+
+                                    <form class="row g-3 needs-validation" novalidate asp-controller="Login"
+                                        asp-action="Index">
+
+                                        <div class="col-12">
+                                            <label for="TenDangNhap" class="form-label">Tên Đăng Nhập</label>
+                                            <input type="text" name="TenDangNhap" class="form-control" id="TenDangNhap"
+                                                required asp-for="TenDangNhap">
+                                            <div class="invalid-feedback">Vui lòng chọn tên đăng nhập!</div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="MatKhau" class="form-label">Mật khẩu</label>
+                                            <input type="password" name="MatKhau" class="form-control" id="MatKhau"
+                                                required asp-for="MatKhau">
+                                            <div class="invalid-feedback">Vui lòng nhập mật khẩu!</div>
+                                        </div>
+
+                                        <div class="form-group col-md-6 mb-3">
+                                            <select asp-for="VaiTro" class="form-select" id="VaiTro">
+                                                <option value="">Chọn đối tượng đăng nhập</option>
+                                                <option value="0">Quản trị viên</option>
+                                                <option value="1">Giáo viên</option>
+                                                <option value="2">Học Viên</option>
+                                            </select>
+                                            <span asp-validation-for="VaiTro" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-12 text-center text-danger">
+                                            <h4>
+                                                @Functions._Message
+                                            </h4>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="remember"
+                                                    value="true" id="rememberMe">
+                                                <label class="form-check-label" for="rememberMe">Nhớ mật khẩu</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button class="btn btn-primary w-100" type="submit">Đăng nhập</button>
+                                        </div>
+                                        <div class="col-12">
+                                            <p class="small mb-0">Chưa có tài khoản? <a href="/Admin/Register/Index">Tạo
+                                                    tài khoản</a></p>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main><!-- End #main -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="~/admin/assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="~/admin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/admin/assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="~/admin/assets/vendor/echarts/echarts.min.js"></script>
+    <script src="~/admin/assets/vendor/quill/quill.js"></script>
+    <script src="~/admin/assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="~/admin/assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="~/admin/assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="~/admin/assets/js/main.js"></script>
+
+</body>
+
+</html>

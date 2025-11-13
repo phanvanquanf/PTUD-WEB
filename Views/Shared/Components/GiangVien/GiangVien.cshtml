@@ -1,0 +1,42 @@
+@using aznews.Models;
+@using aznews.Utilities;
+@model IList<viewGiangVien>;
+
+<!--   Weekly-News start -->
+<div class="weekly-news-area pt-50">
+    <div class="container">
+        <div class="weekly-wrapper">
+            <!-- section Tittle -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-tittle mb-30">
+                        <h3>Đội ngũ giáo viên</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="weekly-news-active dot-style d-flex dot-style">
+                        @{
+                            var giangvien = Model.Take(5).ToList();
+                            foreach (var gv in giangvien)
+                            {
+                                string url = Functions.TitleSlugGeneration("giaovien", gv.HoTen, gv.GvienID);
+                                <div class="weekly-single">
+                                    <div class="weekly-img">
+                                        <img src="@gv.AnhGThieu" alt="" width="370px" height="432px">
+                                    </div>
+                                    <div class="weekly-caption">
+                                        <span class="color1">@gv.HoTen</span>
+                                        <h4><a href="/@url">@gv.NoiCongTac</a></h4>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Weekly-News -->

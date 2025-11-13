@@ -1,0 +1,151 @@
+@using aznews.Models;
+@model aznews.Models.AdminUser
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle mb-4">
+        <h2 class="text-uppercase font-weight-bold text-primary text-center">
+            Thêm Tài Khoản Quản Trị
+        </h2>
+    </div>
+    <div class="container shadow p-5 my-5 bg-light rounded">
+        <form method="POST" asp-action="Create" enctype="multipart/form-data">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <label for="TenDangNhap" class="form-label">Tên Đăng Nhập</label>
+                    <input type="text" class="form-control" asp-for="TenDangNhap" placeholder="Nhập tên đăng nhập..." />
+                    <span asp-validation-for="TenDangNhap" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="HoVaTen" class="form-label">Họ và Tên</label>
+                    <input type="text" class="form-control" asp-for="HoVaTen" placeholder="Nhập họ và tên..." />
+                    <span asp-validation-for="HoVaTen" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="NgaySinh" class="form-label">Ngày Sinh</label>
+                    <input type="date" class="form-control" asp-for="NgaySinh" />
+                    <span asp-validation-for="NgaySinh" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="Email" class="form-label">Email</label>
+                    <input type="email" class="form-control" asp-for="Email" placeholder="Nhập email..." />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="SoDienThoai" class="form-label">Số điện thoại</label>
+                    <input type="text" class="form-control" asp-for="SoDienThoai" placeholder="Nhập số điện thoại..." />
+                    <span asp-validation-for="SoDienThoai" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="MatKhau" class="form-label">Mật Khẩu</label>
+                    <input type="password" class="form-control" asp-for="MatKhau" placeholder="Nhập mật khẩu..." />
+                    <span asp-validation-for="MatKhau" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="TrangThai" class="form-label">Trạng Thái</label>
+                    <select asp-for="TrangThai" class="form-select">
+                        <option value="True">Hoạt động</option>
+                        <option value="False">Không hoạt động</option>
+                    </select>
+                    <span asp-validation-for="TrangThai" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="VaiTro" class="form-label">Vai Trò</label>
+                    <select asp-for="VaiTro" class="form-select">
+                        <option value="0">Quản trị viên</option>
+                        <option value="1">Giáo viên</option>
+                        <option value="2">Học viên</option>
+                    </select>
+                    <span asp-validation-for="VaiTro" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12 text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg w-50">
+                        <i class="bi bi-save"></i> Thêm tài khoản
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7fa;
+    }
+
+    .pagetitle h2 {
+        color: #2c3e50;
+    }
+
+    .container {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control,
+    .form-select,
+    .custom-select {
+        border-radius: 8px;
+        font-size: 14px;
+        padding: 10px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .btn-outline-primary {
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        color: white;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+    }
+
+    .input-group {
+        border-radius: 8px;
+    }
+
+    .text-danger {
+        font-size: 12px;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.7);
+        border-color: #3498db;
+    }
+
+    a {
+        text-decoration: none !important;
+    }
+</style>

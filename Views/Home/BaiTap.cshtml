@@ -1,0 +1,51 @@
+@using aznews.Models;
+@using aznews.Utilities;
+@model IList<viewBaiTap>;
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Danh sách Bài tập</h2>
+    <div class="list-group">
+        @foreach (var khoahoc in Model.GroupBy(khoahoc => khoahoc.TenKH))
+        {
+            <li class="list-group-item">
+                <h5 class="font-weight-bold">@khoahoc.Key</h5>
+                <ul class="list-group pl-3">
+                    @foreach (var chuong in khoahoc.GroupBy(ch => ch.TenChuong))
+                    {
+                        <li class="list-group-item">
+                            <h6>@chuong.Key</h6>
+                            @foreach (var baiTap in chuong)
+                            {
+                                if (@baiTap.HoatDong == 0)
+                                {
+                                    string url = Functions.TitleSlugGeneration("BaiTap", baiTap.TenBaiTap, baiTap.IDBaiTap);
+                                    <a href="/@url" class="list-group-item list-group-item-action">
+                                        @baiTap.TenBaiTap
+                                        <span class="badge badge-success float-right">
+                                            Đã nạp
+                                        </span>
+                                    </a>
+                                }
+                                else
+                                {
+                                    string url = Functions.TitleSlugGeneration("BaiTap", baiTap.TenBaiTap, baiTap.IDBaiTap);
+                                    <a href="/@url" class="list-group-item list-group-item-action">
+                                        @baiTap.TenBaiTap
+                                        <span class="badge badge-warning float-right">
+                                            Chưa nạp
+                                        </span>
+                                    </a>
+                                }
+                            }
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+    </div>
+</div>
+<style>
+    .list-group {
+        margin-bottom: 30px;
+    }
+</style>

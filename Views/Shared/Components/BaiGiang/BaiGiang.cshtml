@@ -1,0 +1,67 @@
+@using aznews.Models;
+@using aznews.Utilities;
+@model IList<viewBaiGiang>;
+
+<!-- Start Youtube -->
+<div class="youtube-area video-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="video-items-active">
+                    @{
+                        var video = Model.Take(5).ToList();
+                        foreach (var vd in video)
+                        {
+                            <div class="video-items text-center">
+                                <iframe src="https://www.youtube.com/embed/@vd.Link" frameborder="0"
+                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="video-info">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="video-caption">
+                        @{
+                            var caption = Model.Skip(4).Take(1).ToList();
+                            foreach (var cap in caption)
+                            {
+                                <div class="top-caption">
+                                    <span class="color1">@cap.MenuName</span>
+                                </div>
+                                <div class="bottom-caption">
+                                    <h2>@cap.TenBaiHoc</h2>
+                                    <p>@cap.MoTa</p>
+                                </div>
+                            }
+
+                        }
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="testmonial-nav text-center">
+                        @{
+                            var capvd = Model.Take(5).ToList();
+                            foreach (var cap in capvd)
+                            {
+                                <div class="single-video">
+                                    <iframe src="https://www.youtube.com/embed/@cap.Link" frameborder="0"
+                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
+                                    <div class="video-intro">
+                                        <h4>@cap.TenKH</h4>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Start youtube -->

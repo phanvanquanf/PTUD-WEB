@@ -1,0 +1,12 @@
+@model aznews.Models.tblMenu;
+<!-- Main-menu -->
+<ul id="navigation">
+    <li>
+        <a href="@Html.DisplayFor(model => model.Link)">@Html.DisplayFor(model => model.MenuName)</a>
+        <ul class="submenu">
+            <li>
+                <a href="@Html.DisplayFor(model => model.Link)">@Html.DisplayFor(model => model.MenuName)</a>
+            </li>s
+        </ul>
+    </li>
+</ul>

@@ -1,0 +1,105 @@
+@using aznews.Models;
+@using aznews.Utilities;
+@model IList<aznews.Models.viewGiangVien>
+
+
+
+<div class="anh-banner">
+  <img src="assets/img/giaovien/anh1.png" class="anh-banner img-fluid" alt="Banner">
+</div>
+
+<main class="main-container">
+  <form>
+    <div class="form-group text-center">
+      <input type="text" name="search" class="form-control w-50 d-inline" placeholder="Tìm kiếm ...">
+      <input type="submit" name="submit" class="btn btn-primary d-inline" id="btnSearchGv" value="Tìm kiếm">
+    </div>
+  </form>
+
+  <div class="row">
+    <!-- Giáo viên 1 -->
+    @foreach (var gv in Model.OrderByDescending(gv => gv.GvienID).Take(12))
+    {
+      string url = Functions.TitleSlugGeneration("giaovien", gv.HoTen, gv.GvienID);
+      <div class="col-md-3 gv-item">
+        <div class="card text-left">
+          <div class="gv-image">
+            <a href="/@url" target="_blank">
+              <img src="@gv.AnhGThieu" class="card-img-top" alt="@gv.HoTen">
+            </a>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title"><a href="/@url" target="_blank">@gv.HoTen</a></h5>
+            <p class="card-text">@gv.NoiCongTac</p>
+            <p>@gv.GioiThieu</p>
+            <a href="/@url" target="_blank" class="btn btn-link">Chi
+              tiết</a>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</main>
+
+<style>
+  .anh-banner {
+    width: 100%;
+    max-width: 1903px;
+    /* Chiều rộng tối đa cho banner */
+    margin: 0 auto;
+    /* Giúp căn giữa ảnh banner */
+  }
+
+  .gv-item {
+    margin-bottom: 20px;
+    /* Khoảng cách giữa các giáo viên */
+  }
+
+  /* Đặt chiều rộng cho main */
+  .main-container {
+    width: 1024px;
+    margin: 0 auto;
+    /* Căn giữa main */
+  }
+
+  .card {
+    width: 255px;
+    /* Đặt chiều rộng cho card */
+    margin-left: 20px;
+    /* Khoảng cách bên phải giữa các card */
+  }
+
+  /* Kích thước hình ảnh giáo viên */
+  .gv-image img {
+    width: 254px;
+    height: 315px;
+  }
+
+  .card-body h5 {
+    font-weight: bold;
+    color: #2a70b8;
+  }
+
+  h5 a:hover {
+    color: coral;
+  }
+
+  p.card-text {
+    font-weight: bold;
+    min-height: 34px;
+    font-size: 14px;
+  }
+
+  p {
+    line-height: 16.15px;
+    font-size: 13px;
+  }
+
+  .btn {
+    min-width: 215px;
+  }
+
+  .form-group {
+    margin-top: 20px;
+  }
+</style>

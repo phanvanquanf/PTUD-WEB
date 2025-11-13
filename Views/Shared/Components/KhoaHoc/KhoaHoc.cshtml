@@ -1,0 +1,43 @@
+@using aznews.Models;
+@using aznews.Utilities;
+@model IList<viewKhoaHoc>;
+
+<!--   Weekly2-News start -->
+<div class="weekly2-news-area  weekly2-pading gray-bg">
+    <div class="container">
+        <div class="weekly2-wrapper">
+            <!-- section Tittle -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-tittle mb-30">
+                        <h3>Khóa học</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="weekly2-news-active dot-style d-flex dot-style">
+                        @{
+                            var khoahoc = Model.Take(5).ToList();
+                            foreach (var kh in khoahoc)
+                            {
+                                string url = Functions.TitleSlugGeneration("BaiGiang", kh.TenKH, kh.IDKhoaHoc);
+                                <div class="weekly2-single">
+                                    <div class="weekly2-img">
+                                        <img src="@kh.Anh" alt="" width="270px" height="175px">
+                                    </div>
+                                    <div class="weekly2-caption">
+                                        <span class="color1">@kh.MenuName</span>
+                                        <p>@kh.ThoiGian</p>
+                                        <h4><a href="/@url">@kh.TenKH</a></h4>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Weekly-News -->

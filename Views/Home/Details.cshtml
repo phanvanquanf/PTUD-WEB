@@ -1,0 +1,102 @@
+@model aznews.Models.viewPostMenu;
+<main>
+    <!-- About US Start -->
+    <div class="about-area">
+        <div class="container">
+            <!-- Hot Aimated News Tittle-->
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Trending Tittle -->
+                    <div class="about-right mb-90">
+                        <div class="about-img">
+                            <img src="@Html.DisplayFor(model => model.Images)" alt="">
+                        </div>
+                        <div class="section-tittle mb-30 pt-30">
+                            <h3>@Html.DisplayFor(model => model.Title)</h3>
+                        </div>
+                        <div class="about-prea">
+                            <p class="about-pera1 mb-25">
+                                @Html.DisplayFor(model => model.Abstract)
+                            </p>
+                        </div>
+                        <div class="section-tittle">
+                            <h3>Nội dung chính</h3>
+                        </div>
+                        <div class="about-prea">
+                            <p class="about-pera1 mb-25">
+                                @Html.DisplayFor(model => model.Contents);
+                            </p>
+                        </div>
+                        <div class="social-share pt-30">
+                            <div class="section-tittle">
+                                <h3 class="mr-20">Chia sẻ:</h3>
+                                <ul>
+                                    <li><a href="#"><img src="assets/img/news/icon-ins.png" alt=""></a></li>
+                                    <li><a href="#"><img src="assets/img/news/icon-fb.png" alt=""></a></li>
+                                    <li><a href="#"><img src="assets/img/news/icon-tw.png" alt=""></a></li>
+                                    <li><a href="#"><img src="assets/img/news/icon-yo.png" alt=""></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!-- Section Tittle -->
+                    <div class="section-tittle mb-40">
+                        <h3>Người theo dõi</h3>
+                    </div>
+                    <!-- Flow Socail -->
+                    <div class="single-follow mb-45">
+                        <div class="single-box">
+                            <div class="follow-us d-flex align-items-center">
+                                <div class="follow-social">
+                                    <a href="https://www.facebook.com/hethonggiaoduchocmai/?locale=vi_VN"><img
+                                            src="assets/img/news/icon-fb.png" alt=""></a>
+                                </div>
+                                <div class="follow-count">
+                                    <span>23,902</span>
+                                    <p>Người hâm mộ</p>
+                                </div>
+                            </div>
+                            <div class="follow-us d-flex align-items-center">
+                                <div class="follow-social">
+                                    <a href="https://twitter.com/hocmaivietnam"><img src="assets/img/news/icon-tw.png"
+                                            alt=""></a>
+                                </div>
+                                <div class="follow-count">
+                                    <span>3,045</span>
+                                    <p>Người hâm mộ</p>
+                                </div>
+                            </div>
+                            <div class="follow-us d-flex align-items-center">
+                                <div class="follow-social">
+                                    <a href="https://www.instagram.com/hocmai.360"><img
+                                            src="assets/img/news/icon-ins.png" alt=""></a>
+                                </div>
+                                <div class="follow-count">
+                                    <span>10,555</span>
+                                    <p>Người hâm mộ</p>
+                                </div>
+                            </div>
+                            <div class="follow-us d-flex align-items-center">
+                                <div class="follow-social">
+                                    <a href="https://www.youtube.com/HOCMAITHPT"><img src="assets/img/news/icon-yo.png"
+                                            alt=""></a>
+                                </div>
+                                <div class="follow-count">
+                                    <span>379,012</span>
+                                    <p>Người hâm mộ</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- New Poster -->
+                    <div class="news-poster d-none d-lg-block">
+                        <img src="assets/img/bannerphai.png" alt="" weight="248px" height="624px">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About US End -->
+</main>

@@ -1,0 +1,183 @@
+@using aznews.Utilities;
+@model aznews.Models.tblTienTrinh;
+
+@{
+    var summerNote = new aznews.Areas.Teacher.Models.SummerNote("#NoiDung");
+    <partial name="_SummerNote" model="summerNote" />
+    Layout = "~/Areas/Teacher/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle mb-4">
+        <h2 class="text-uppercase font-weight-bold text-primary text-center">
+            Chỉnh Sửa Tiến Trình
+        </h2>
+    </div>
+    <div class="container shadow p-5 my-5 bg-light rounded">
+        <form method="POST" asp-action="Edit" enctype="multipart/form-data">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <label for="IDKhoaHoc" class="form-label">Tên khóa học</label>
+                    <select asp-for="IDKhoaHoc" class="form-control custom-select"
+                        asp-items="@(new SelectList(ViewBag.khList, "Value", "Text"))" id="IDKhoaHoc">
+                    </select>
+                    <span asp-validation-for="IDKhoaHoc" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="GVienID" class="form-label">Tên giáo viên</label>
+                    <select asp-for="GVienID" class="form-control custom-select" id="GVienID">
+                        <option value="">--- Select ---</option>
+                    </select>
+                    <span asp-validation-for="GVienID" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="IDBaiGiang" class="form-label">Tên bài giảng</label>
+                    <select asp-for="IDBaiGiang" class="form-control custom-select" id="IDBaiGiang">
+                        <option value="">--- Select ---</option>
+                    </select>
+                    <span asp-validation-for="IDBaiGiang" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="IDHocVien" class="form-label">Tên học viên</label>
+                    <select asp-for="IDHocVien" class="form-control custom-select"
+                        asp-items="@(new SelectList(ViewBag.HVList, "Value", "Text"))">
+                    </select>
+                    <span asp-validation-for="IDHocVien" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="NgayBatDau" class="form-label">Tiến trình</label>
+                    <input type="text" class="form-control" asp-for="TienTrinh" />
+                </div>
+
+                <div class="col-md-6">
+                    <label for="TrangThai" class="form-label">Trạng thái</label>
+                    <select asp-for="TrangThai" class="form-control">
+                        <option value="0">Chưa hoàn thành</option>
+                        <option value="1">Hoàn thành</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="NgayBatDau" class="form-label">Ngày bắt đầu</label>
+                    <input type="date" class="form-control" asp-for="NgayBatDau" />
+                </div>
+
+                <div class="col-md-6">
+                    <label for="NgayHoanThanh" class="form-label">Ngày hoàn thành</label>
+                    <input type="date" class="form-control" asp-for="NgayHoanThanh" />
+                </div>
+
+                <div class="col-md-6">
+                    <label for="MenuID" class="form-label">Menu</label>
+                    <select asp-for="MenuID" class="form-control custom-select" id="MenuID" disabled>
+                        <option value="1">Tiến trình</option>
+                    </select>
+                    <input type="hidden" asp-for="MenuID" value="12" />
+                </div>
+
+                <div class="col-12 text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg w-50">
+                        <i class="bi bi-save"></i> Lưu Thay Đổi
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+
+<style>
+    body {
+        background-color: #f9fafc;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .pagetitle h2 {
+        color: #e74c3c;
+    }
+
+    .container {
+        border-radius: 15px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .form-control[disabled] {
+        background-color: #f8f9fa;
+        color: #495057;
+        border: 1px solid #ced4da;
+        cursor: not-allowed;
+    }
+
+    .btn-outline-secondary {
+        border-radius: 10px;
+        color: #6c757d;
+        border: 2px solid #6c757d;
+        transition: all 0.3s;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-danger {
+        border-radius: 10px;
+        font-weight: bold;
+        background-color: #e74c3c;
+        border: none;
+        transition: all 0.3s;
+    }
+
+    .btn-danger:hover {
+        background-color: #c0392b;
+    }
+
+    .alert-warning {
+        font-size: 16px;
+        border-radius: 10px;
+        background-color: #fff3cd;
+        border: 1px solid #ffeeba;
+    }
+
+    a {
+        text-decoration: none;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        var gvList = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.gvList));
+        var bgList = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.bgList));
+
+        // Cập nhật dropdown giáo viên và bài giảng dựa trên khóa học được chọn
+        function updateDropdown(dropdownId, list, valueKey, textKey) {
+            var selectedCourseId = $('#IDKhoaHoc').val();
+            var dropdown = $(dropdownId);
+            dropdown.empty();
+            dropdown.append('<option value="">--- Select ---</option>');
+
+            if (selectedCourseId) {
+                var filteredList = list.filter(function (item) {
+                    return item.IDKhoaHoc == selectedCourseId;
+                });
+
+                $.each(filteredList, function (index, item) {
+                    dropdown.append('<option value="' + item[valueKey] + '">' + item[textKey] + '</option>');
+                });
+            }
+        }
+
+        $('#IDKhoaHoc').change(function () {
+            updateDropdown('#GVienID', gvList, 'GvienID', 'HoTen');
+            updateDropdown('#IDBaiGiang', bgList, 'IDBaiGiang', 'TenBaiHoc');
+        });
+    });
+</script>

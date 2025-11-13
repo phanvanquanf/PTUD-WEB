@@ -1,0 +1,46 @@
+@model aznews.Models.tblDienDan
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle text-center mb-4">
+        <h2 class="text-uppercase font-weight-bold text-danger">Xóa Bài Viết</h2>
+    </div>
+
+    <div class="container shadow-sm p-5 my-5 bg-light rounded">
+        <div class="alert alert-warning text-center mb-4" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i> Bạn sắp xóa bài viết này. Hành động này không thể hoàn tác!
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="IDBaiViet" class="font-weight-bold">ID Bài Viết</label>
+                    <input type="text" class="form-control" asp-for="IDBaiViet" disabled />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="TenBaiViet" class="font-weight-bold">Tên Bài Viết</label>
+                    <input type="text" class="form-control" asp-for="TenBaiViet" disabled />
+                </div>
+            </div>
+        </div>
+
+        <form asp-action="Delete" method="Post">
+            <input type="hidden" asp-for="IDBaiViet" />
+
+            <div class="form-group text-center">
+                <a href="javascript:history.back()" class="btn btn-outline-secondary btn-lg p-3 mr-3">
+                    <i class="bi bi-arrow-left-circle"></i> Quay lại
+                </a>
+
+                <button type="submit" class="btn btn-danger btn-lg p-3">
+                    <i class="bi bi-trash"></i> Xóa Bài Viết
+                </button>
+            </div>
+        </form>
+    </div>
+</main>

@@ -1,0 +1,227 @@
+@using aznews.Utilities;
+@model aznews.Models.tblGiaoVien;
+@{
+    var summerNote = new aznews.Areas.Admin.Models.SummerNote("#NoiDung");
+    var summerNote1 = new aznews.Areas.Admin.Models.SummerNote("#PhongCachGiangDay");
+    var summerNote2 = new aznews.Areas.Admin.Models.SummerNote("#DoiNetVeGVien");
+    var summerNote3 = new aznews.Areas.Admin.Models.SummerNote("#ThanhTich");
+    <partial name="_SummerNote" model="summerNote" />
+    <partial name="_SummerNote" model="summerNote1" />
+    <partial name="_SummerNote" model="summerNote2" />
+    <partial name="_SummerNote" model="summerNote3" />
+
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<main id="main" class="main">
+    <div class="pagetitle mb-4">
+        <h2 class="text-uppercase font-weight-bold text-primary text-center">
+            Chỉnh sửa thông tin giảng viên
+        </h2>
+    </div>
+    <div class="container shadow p-5 my-5 bg-light rounded">
+        <form method="POST" asp-action="Edit" enctype="multipart/form-data">
+            <div class="row g-4">
+
+                <div class="col-md-6">
+                    <label for="GVienID" class="form-label">ID Giáo viên</label>
+                    <input type="text" class="form-control" asp-for="GvienID" readonly />
+                    <span asp-validation-for="GvienID" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="HoTen" class="form-label">Họ và Tên</label>
+                    <input type="text" class="form-control" asp-for="HoTen" placeholder="Nhập họ và tên..." required />
+                    <span asp-validation-for="HoTen" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="Hocvi" class="form-label">Nơi Công Tác</label>
+                    <input type="text" class="form-control" asp-for="NoiCongTac" placeholder="Nhập nơi công tác..." />
+                    <span asp-validation-for="NoiCongTac" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="Email" class="form-label">Email</label>
+                    <input type="email" class="form-control" asp-for="Email" placeholder="Nhập email..." />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="Facebook" class="form-label">Facebook</label>
+                    <input type="text" class="form-control" asp-for="Facebook" placeholder="Nhập link Facebook..." />
+                    <span asp-validation-for="Facebook" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="HocVi" class="form-label">Học Vị</label>
+                    <select asp-for="HocVi" class="form-control" placeholder="@Model.HocVi">
+                        <option value="Cử nhân">Cử nhân</option>
+                        <option value="Tiến sĩ">Tiến sĩ</option>
+                        <option value="Thạc sĩ">Thạc sĩ</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="IDMon" class="form-label">Môn học</label>
+                    <select asp-for="IDMon" class="form-control custom-select"
+                        asp-items="@(new SelectList(ViewBag.monhoc, "Value", "Text"))" id="IDMon">
+                    </select>
+                    <input type="hidden" asp-for="Mon" value="Mon" />
+                </div>
+
+                <div class="col-12">
+                    <label for="GioiThieu" class="form-label">Giới Thiệu</label>
+                    <textarea class="form-control" asp-for="GioiThieu" rows="3"
+                        placeholder="Nhập phong cách giảng dạy..."></textarea>
+                    <span asp-validation-for="GioiThieu" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label for="PhongCachGiangDay" class="form-label">Phong Cách Giảng Dạy</label>
+                    <textarea class="form-control" id="PhongCachGiangDay" asp-for="PhongCach" rows="3"
+                        placeholder="Nhập phong cách giảng dạy...">@Html.Raw(@Model.PhongCach)</textarea>
+                    <span asp-validation-for="PhongCach" class="text-danger small"></span>
+                    <input type="hidden" id="NoiDungPhongCach" name="NoiDungPhongCachPlainText" />
+                </div>
+
+                <div class="col-12">
+                    <label for="DoiNetVeGVien" class="form-label">Đôi Nét Về Giảng Viên</label>
+                    <textarea class="form-control" id="DoiNetVeGVien" asp-for="DoiNet" rows="3"
+                        placeholder="Nhập đôi nét về giảng viên...">@Html.Raw(@Model.DoiNet)</textarea>
+                    <span asp-validation-for="DoiNet" class="text-danger small"></span>
+                    <input type="hidden" id="NoiDungDoiNet" name="NoiDungDoiNetPlainText" />
+                </div>
+
+                <div class="col-12">
+                    <label for="ThanhTich" class="form-label">Thành Tích</label>
+                    <textarea class="form-control" id="ThanhTich" asp-for="ThanhTich" rows="3"
+                        placeholder="Nhập thành tích...">@Html.Raw(@Model.ThanhTich)</textarea>
+                    <span asp-validation-for="ThanhTich" class="text-danger small"></span>
+                    <input type="hidden" id="NoiDungThanhTich" name="NoiDungThanhTichPlainText" />
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+                    <label for="AnhGThieu" class="form-label">Ảnh Đại Diện</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-primary" type="button" onclick="openDialog('AnhGThieu')">Chọn
+                            ảnh</button>
+                        <input type="text" class="form-control" asp-for="AnhGThieu" id="AnhGThieu"
+                            aria-describedby="button-addon4" />
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="AnhBia" class="form-label">Ảnh Bìa</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-primary" type="button" onclick="openDialog('AnhBia')">Chọn
+                            ảnh</button>
+                        <input type="text" class="form-control" asp-for="AnhBia" id="AnhBia"
+                            aria-describedby="button-addon1" />
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="AnhTheoDoi" class="form-label">Ảnh Theo Dõi</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-primary" type="button" onclick="openDialog('AnhTheoDoi')">Chọn
+                            ảnh</button>
+                        <input type="text" class="form-control" asp-for="AnhTheoDoi" id="AnhTheoDoi"
+                            aria-describedby="button-addon2" />
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="AnhCaNhan2" class="form-label">Ảnh Cá Nhân</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-primary" type="button" onclick="openDialog('AnhCaNhan')">Chọn
+                            ảnh</button>
+                        <input type="text" class="form-control" asp-for="AnhCaNhan" id="AnhCaNhan"
+                            aria-describedby="button-addon3" />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="HoatDong" class="form-label">Hoạt Động</label>
+                    <select asp-for="HoatDong" class="form-control">
+                        <option value="True">Đang hoạt động</option>
+                        <option value="False">Ngừng hoạt động</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="MenuID" class="form-label">Menu name</label>
+                    <select asp-for="MenuID" class="form-control custom-select"
+                        asp-items="@(new SelectList(ViewBag.mnList, "Value", "Text"))" id="MenuID" disabled>
+                        <option value="1">Giáo viên</option>
+                    </select>
+                    <input type="hidden" asp-for="MenuID" value="4" />
+                </div>
+
+                <div class="col-12 text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg w-50">
+                        <i class="bi bi-save"></i> Lưu Thay Đổi
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+
+<style>
+    body {
+        background-color: #f7f9fc;
+        font-family: "Roboto", sans-serif;
+    }
+
+    .main {
+        padding: 20px;
+    }
+
+    .pagetitle {
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+    }
+
+    .btn {
+        border-radius: 8px;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        border-color: #3498db;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #2c81ba;
+        border-color: #2c81ba;
+    }
+
+    .container {
+        border-radius: 15px;
+        padding: 30px;
+        background: #ffffff;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    a {
+        text-decoration: none;
+    }
+</style>

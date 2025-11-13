@@ -1,0 +1,169 @@
+@using aznews.Areas.Admin.Models;
+@model IList<AdminMenu>;
+
+<style>
+    .sidebar-nav .nav-item .toggle-collapse {
+        cursor: pointer;
+        margin-left: auto;
+        font-size: 16px;
+        display: inline-block;
+        transform: rotate(0deg);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar-nav .nav-item .toggle-collapse.collapsed {
+        transform: rotate(-90deg);
+    }
+
+    /* Thêm hiệu ứng chuyển động mượt mà khi mở/đóng submenu */
+    .nav-content {
+        transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+    }
+
+    /* Khi menu được mở */
+    .nav-content.show {
+        max-height: 500px;
+        /* Bạn có thể điều chỉnh giá trị này nếu cần */
+        opacity: 1;
+    }
+</style>
+
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-heading">Bộ điều khiển</li>
+        @foreach (var menu in Model.Where(m => m.ItemLevel == 1).OrderBy(m => m.ItemOrder))
+        {
+            var pID = menu.AdminMenuID;
+            var sMenu = Model.Where(s => s.ParentLevel == pID).OrderBy(s => s.ItemOrder).ToList();
+
+            if (sMenu.Count == 0)
+            {
+                // Menu không có mục con
+                <li class="nav-item">
+                    <a class="nav-link" href="/Admin/@menu.ControllerName/@menu.ActionName">
+                        <i class="bi bi-grid"></i>
+                        <span>@menu.ItemName</span>
+                    </a>
+                </li>
+            }
+            else
+            {
+                // Menu có mục con
+                <li class="nav-item">
+                    <a class="nav-link parent-menu" href="/Admin/@menu.ControllerName/@menu.ActionName">
+                        <i class="@menu.Icon"></i>
+                        <span>@menu.ItemName</span>
+                        <i class="bi bi-chevron-down ms-auto toggle-collapse" data-bs-target="#collapse-@menu.AdminMenuID"></i>
+                    </a>
+                    <ul id="collapse-@menu.AdminMenuID" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                        @foreach (var smn in sMenu)
+                        {
+                            <li>
+                                <a href="/Admin/@smn.ControllerName/@smn.ActionName">
+                                    <i class="bi bi-circle"></i>
+                                    <span>@smn.ItemName</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+
+            }
+        }
+
+        <!-- Trang tĩnh -->
+        <li class="nav-heading">Trang</li>
+        <li class="nav-item">
+            <a class="nav-link" href="users-profile.html">
+                <i class="bi bi-person"></i>
+                <span>Hồ sơ</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="pages-faq.html">
+                <i class="bi bi-question-circle"></i>
+                <span>Câu hỏi thường gặp</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="pages-contact.html">
+                <i class="bi bi-envelope"></i>
+                <span>Liên hệ</span>
+            </a>
+        </li>
+    </ul>
+</aside>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Lưu và khôi phục trạng thái của menu khi mở và thu gọn
+        const restoreMenuState = () => {
+            const savedState = JSON.parse(localStorage.getItem("sidebarState") || "{}");
+            Object.keys(savedState).forEach(id => {
+                const menu = document.getElementById(id);
+                const toggleIcon = document.querySelector(`[data-bs-target="#${id}"]`);
+                if (menu && savedState[id]) {
+                    menu.classList.add('show');
+                    toggleIcon.classList.remove('collapsed');
+                } else if (menu) {
+                    menu.classList.remove('show');
+                    toggleIcon.classList.add('collapsed');
+                }
+            });
+        };
+
+        // Lưu trạng thái của menu sau khi thay đổi
+        const saveMenuState = () => {
+            const state = {};
+            document.querySelectorAll('.nav-content.collapse').forEach(menu => {
+                state[menu.id] = menu.classList.contains('show');
+            });
+            localStorage.setItem("sidebarState", JSON.stringify(state));
+        };
+
+        // Thiết lập các sự kiện toggle cho các menu chính và menu con
+        const setupToggleEvents = () => {
+            // Sự kiện click cho menu chính (để điều khiển thu gọn/giãn menu con)
+            document.querySelectorAll('.toggle-collapse').forEach(toggle => {
+                toggle.addEventListener('click', function (e) {
+                    e.preventDefault(); // Ngăn hành động chuyển hướng
+                    const target = document.querySelector(this.dataset.bsTarget);
+
+                    if (target) {
+                        // Kiểm tra nếu menu đã mở, thì đóng nó, ngược lại mở
+                        const isOpen = target.classList.contains('show');
+                        if (isOpen) {
+                            target.classList.remove('show'); // Đóng menu
+                        } else {
+                            target.classList.add('show'); // Mở menu
+                        }
+
+                        // Lưu lại trạng thái
+                        saveMenuState();
+                    }
+                });
+            });
+
+            // Sự kiện click vào menu con để chuyển hướng
+            document.querySelectorAll('.nav-content a').forEach(submenuLink => {
+                submenuLink.addEventListener('click', function (e) {
+                    // Mở menu con khi click vào mục menu con
+                    const target = document.querySelector(this.closest('.nav-content').dataset.bsTarget);
+                    if (target) {
+                        target.classList.remove('show'); // Đóng khi click vào menu con
+                        setTimeout(() => {
+                            target.classList.add('show'); // Mở lại menu con sau 3000ms
+                        }, 3000); // Thời gian 3 giây
+                    }
+                });
+            });
+        };
+
+        // Khôi phục trạng thái và thiết lập sự kiện toggle khi trang được tải lại
+        restoreMenuState();
+        setupToggleEvents();
+    });
+</script>

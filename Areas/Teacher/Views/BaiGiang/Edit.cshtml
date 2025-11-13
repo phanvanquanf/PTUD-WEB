@@ -1,0 +1,219 @@
+@using aznews.Utilities;
+@model aznews.Models.tblBaiGiang;
+
+@{
+    var summerNote = new aznews.Areas.Teacher.Models.SummerNote("#ND");
+    var summerNote1 = new aznews.Areas.Teacher.Models.SummerNote("#MTa");
+    <partial name="_SummerNote" model="summerNote" />
+    <partial name="_SummerNote" model="summerNote1" />
+
+    Layout = "~/Areas/Teacher/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle mb-4">
+        <h2 class="text-uppercase font-weight-bold text-primary text-center">
+            Sửa bài giảng
+        </h2>
+    </div>
+    <div class="container shadow p-5 my-5 bg-light rounded">
+        <form method="POST" asp-action="Edit" enctype="multipart/form-data">
+            <div class="row g-4">
+
+                <div class="col-md-6">
+                    <label for="IDBaiGiang" class="form-label">IDBaiGiang</label>
+                    <input type="text" class="form-control" asp-for="IDBaiGiang" />
+                    <span asp-validation-for="IDBaiGiang" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="TenKH" class="form-label">Tên khóa học</label>
+                    <select asp-for="IDKhoaHoc" class="form-control custom-select"
+                        asp-items="@(new SelectList(ViewBag.khList, "Value", "Text"))" id="IDKhoaHoc" name="IDKhoaHoc">
+                    </select>
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+                    <label for="IDChuong" class="form-label">Tên chương</label>
+                    <select asp-for="IDChuong" class="form-control custom-select" id="IDChuong">
+                        <option value="">--- Select ---</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="GVienID" class="form-label">Tác giả</label>
+                    <select asp-for="GVienID" class="form-control custom-select" id="GVienID">
+                        <option value="">--- Select ---</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="TenBaiHoc" class="form-label">Tên bài học</label>
+                    <input type="text" class="form-control" asp-for="TenBaiHoc" placeholder="Nhập tên bài học..." />
+                    <span asp-validation-for="TenBaiHoc" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="Link" class="form-label">ID Video</label>
+                    <input type="url" class="form-control" asp-for="Link" placeholder="Nhập liên kết..." />
+                    <span asp-validation-for="Link" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label for="MoTa" class="form-label">Mô tả</label>
+                    <textarea class="form-control" id="MTa" asp-for="MoTa"></textarea>
+                    <span asp-validation-for="MoTa" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label for="NDung" class="form-label">Nội dung</label>
+                    <textarea class="form-control" id="ND" asp-for="NDung"></textarea>
+                    <span asp-validation-for="NDung" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="SoLuotHoc" class="form-label">Số lượt học</label>
+                    <input class="form-control" asp-for="SoLuotHoc" placeholder="Nhập số lượt học..." />
+                    <span asp-validation-for="SoLuotHoc" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="ThuTu" class="form-label">Thứ tự</label>
+                    <input type="number" class="form-control" asp-for="ThuTu" />
+                    <span asp-validation-for="ThuTu" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="ThoiLuong" class="form-label">Thời lượng</label>
+                    <input type="text" class="form-control" asp-for="ThoiLuong" placeholder="Nhập thời lượng..." />
+                    <span asp-validation-for="ThoiLuong" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="HoatDong" class="form-label">Hoạt động</label>
+                    <select asp-for="HoatDong" class="form-control">
+                        <option value="True">Đang hoạt động</option>
+                        <option value="False">Ngừng hoạt động</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="MenuID" class="form-label">Menu name</label>
+                    <select asp-for="MenuID" class="form-control custom-select"
+                        asp-items="@(new SelectList(ViewBag.mnList, "Value", "Text"))" id="MenuID" disabled>
+                        <option value="1">Khóa học</option>
+                    </select>
+                    <input type="hidden" asp-for="MenuID" value="2" />
+                </div>
+
+                <div class="col-12 text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg w-50">
+                        <i class="bi bi-save"></i> Lưu Thay Đổi
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+
+<script>
+    $(document).ready(function () {
+        var gvList = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.gvList));
+        var chuongList = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.chuongList));
+
+        // Hàm cập nhật dropdown
+        function updateDropdown(dropdownId, list, valueKey, textKey) {
+            var selectedCourseId = $('#IDKhoaHoc').val();
+            var dropdown = $(dropdownId);
+            dropdown.empty();
+            dropdown.append('<option value="">--- Select ---</option>');
+
+            if (selectedCourseId) {
+                var filteredList = list.filter(function (item) {
+                    return item.IDKhoaHoc == selectedCourseId;
+                });
+
+                $.each(filteredList, function (index, item) {
+                    dropdown.append('<option value="' + item[valueKey] + '">' + item[textKey] + '</option>');
+                });
+            }
+        }
+
+        $('#IDKhoaHoc').change(function () {
+            updateDropdown('#GVienID', gvList, 'GvienID', 'HoTen');
+            updateDropdown('#IDChuong', chuongList, 'IDChuong', 'TenChuong');
+        });
+    });
+</script>
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7fa;
+    }
+
+    .pagetitle h2 {
+        color: #2c3e50;
+    }
+
+    .container {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control,
+    .form-select,
+    .custom-select {
+        border-radius: 8px;
+        font-size: 14px;
+        padding: 10px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .btn-outline-primary {
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        color: white;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+    }
+
+    .input-group {
+        border-radius: 8px;
+    }
+
+    .text-danger {
+        font-size: 12px;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.7);
+        border-color: #3498db;
+    }
+
+    a {
+        text-decoration: none !important;
+    }
+</style>

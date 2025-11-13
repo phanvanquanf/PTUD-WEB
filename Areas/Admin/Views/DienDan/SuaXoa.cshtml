@@ -1,0 +1,227 @@
+@using aznews.Models;
+@using PagedList.Core.Mvc;
+@model PagedList.Core.IPagedList<tblDienDan>;
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 1200px;
+        background-color: #ffffff;
+        padding: 30px;
+        margin: 30px auto;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .header h2 {
+        margin: 0;
+        font-size: 24px;
+        color: #343a40;
+        font-weight: bold;
+    }
+
+    .add-menu-btn {
+        padding: 10px 20px;
+        background: linear-gradient(45deg, #36d1dc, #5b86e5);
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 16px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    .add-menu-btn:hover {
+        background: linear-gradient(45deg, #5b86e5, #36d1dc);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        transform: scale(1.05);
+    }
+
+    .action-btns a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        margin: 0 5px;
+        border-radius: 5px;
+        color: white;
+        font-size: 14px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        gap: 8px;
+    }
+
+    /* Nút Sửa */
+    .btn-primary {
+        background-color: #4caf50; /* Màu xanh lá */
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #45a049; /* Màu xanh đậm */
+        transform: translateY(-4px); /* Đẩy nút lên */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Tăng bóng đổ */
+    }
+
+    .btn-primary i {
+        font-size: 16px;
+    }
+
+    /* Nút Xóa */
+    .btn-danger {
+        background-color: #f44336; /* Màu đỏ */
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #e53935; /* Màu đỏ đậm */
+        transform: translateY(-4px); /* Đẩy nút lên */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Tăng bóng đổ */
+    }
+
+    .btn-danger i {
+        font-size: 16px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+
+    th,
+    td {
+        padding: 15px;
+        border: 1px solid #f1f1f1;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    th {
+        background-color: #f8f9fa;
+        color: #495057;
+        text-transform: uppercase;
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+
+    td {
+        color: #6c757d;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    tr:hover {
+        background-color: #e9ecef;
+    }
+
+    .pagination {
+        margin-top: 20px;
+        justify-content: center;
+        display: flex;
+    }
+
+    .pagination .page-item {
+        margin: 0 5px;
+    }
+
+    .pagination .page-link {
+        border-radius: 5px;
+        padding: 10px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .pagination .page-link:hover {
+        background-color: #2980b9;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+</style>
+
+<main id="main" class="main">
+    <div class="container">
+        <div class="header">
+            <h2>Danh sách bài viết</h2>
+        </div>
+
+        <section class="section dashboard">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card recent-sales overflow-auto">
+                        <div class="card-body mt-4">
+                            <table class="table table-striped table-borderless datatable">
+                                <thead>
+                                    <tr>
+                                        <th class="col-1 text-center">ID</th>
+                                        <th class="col-9 text-left">Tiêu đề</th>
+                                        <th class="col-2 text-center">Công cụ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td class="text-center">@item.IDBaiViet</td>
+                                            <td class="text-left text-primary" scope="row">
+                                                <a asp-controller="DienDan" asp-action="Details" asp-route-id="@item.IDBaiViet"
+                                                    class="text-primary">@item.TenBaiViet</a>
+                                            </td>
+                                            <td class="text-center">
+                                                <!-- Nút Sửa -->
+                                                <a asp-area="Admin" asp-controller="DienDan" asp-action="Edit" asp-route-id="@item.IDBaiViet"
+                                                    class="btn btn-primary btn-sm" title="Chỉnh sửa">
+                                                    <i class="fas fa-edit"></i> Sửa
+                                                </a>
+                                                <!-- Nút Xóa -->
+                                                <a asp-controller="DienDan" asp-action="Delete" asp-route-id="@item.IDBaiViet"
+                                                    class="btn btn-danger btn-sm" title="Xóa">
+                                                    <i class="fas fa-trash-alt"></i> Xóa
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="pagination">
+            <!-- Pagination -->
+            <ul class="pagination">
+                <pager class="pager-container" options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly" list="@Model"></pager>
+            </ul>
+        </div>
+    </div>
+</main>

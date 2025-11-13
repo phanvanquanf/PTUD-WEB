@@ -1,0 +1,175 @@
+@using aznews.Models;
+@using aznews.Utilities;
+@model IList<viewDiem>;
+
+<div class="container-xemdiem">
+    @{
+        var diem = Model.Take(1).ToList();
+        foreach (var tenHV in diem)
+        {
+            <h1>Xem Điểm của Học Viên</h1>
+            <div class="student-info">
+                <h3>Học viên: @tenHV.HoTenHV</h3>
+                <p><strong>Mã học viên:</strong> @tenHV.IDHocVien</p>
+            </div>
+
+        }
+    }
+
+    <table id="gradeTable">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Khóa học</th>
+                <th>Tên Bài Tập</th>
+                <th>Điểm</th>
+                <th>Tên Môn</th>
+                <th>Xếp Loại</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var Diem = Model.ToList().Where(model => model.IDHocVien == 1).ToList();
+                if (Diem.Count > 0)
+                {
+                    foreach (var DiemCaNhan in Diem)
+                    {
+                        <tr>
+                            <td>@(Model.IndexOf(DiemCaNhan) + 1)</td>
+                            <td>@DiemCaNhan.TenKH</td>
+                            <td>@DiemCaNhan.TenBaiTap</td>
+                            <td>@DiemCaNhan.Diem</td>
+                            <td>@DiemCaNhan.Mon</td>
+                            <td>
+                                @if (@DiemCaNhan.XepLoai == 1)
+                                {
+                                    <span class="status pass">Đạt</span>
+                                }
+                                else if (@DiemCaNhan.XepLoai == 0)
+                                {
+                                    <span class="status fail">Không Đạt</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="no-data">
+                            Không có điểm nào được hiển thị.
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+
+    </table>
+</div>
+
+<style>
+    .container-xemdiem {
+        width: 80%;
+        margin: 30px auto;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+
+    .student-info {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .student-info h3 {
+        font-size: 24px;
+        color: #007bff;
+    }
+
+    .student-info p {
+        font-size: 16px;
+        color: #555;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 15px;
+        text-align: center;
+        font-size: 16px;
+        vertical-align: middle;
+        /* Căn giữa theo chiều dọc */
+    }
+
+    th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    td input {
+        width: 60px;
+        /* Giới hạn chiều rộng của ô input */
+        padding: 6px;
+        font-size: 14px;
+        text-align: center;
+        /* Căn giữa giá trị trong input */
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin: 0 auto;
+        /* Căn giữa theo chiều ngang */
+        display: block;
+        /* Làm cho nó thành phần tử block */
+    }
+
+
+
+    .status {
+        font-weight: bold;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        display: inline-block;
+        text-align: center;
+        /* Căn giữa chữ trong status */
+    }
+
+    .status.pass {
+        background-color: #28a745;
+    }
+
+    .status.fail {
+        background-color: #dc3545;
+    }
+
+    .status.pending {
+        background-color: #ffc107;
+    }
+
+    .no-data {
+        text-align: center;
+        font-size: 18px;
+        color: #888;
+    }
+</style>

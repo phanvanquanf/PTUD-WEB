@@ -1,0 +1,144 @@
+@using aznews.Models;
+@model IList<tblHocVien>;
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <!-- Tiêu đề trang -->
+    <div class="pagetitle mb-4 text-center">
+        <h2 class="text-uppercase font-weight-bold text-primary">Thông Tin Học Viên</h2>
+    </div>
+
+    <!-- Container -->
+    <div class="container shadow-lg p-5 bg-white rounded">
+        @foreach (var hv in Model)
+        {
+            <!-- Ảnh đại diện -->
+            <div class="text-center mb-5">
+                <img src="~/admin/@hv.AnhDaiDien" alt="Ảnh đại diện" class="rounded-circle img-thumbnail shadow"
+                    style="width: 150px; height: 150px; object-fit: cover;">
+                <h3 class="mt-3 text-primary">@hv.HoTenHV</h3>
+                <p class="text-secondary">@hv.Lop</p>
+            </div>
+
+            <!-- Thông tin chi tiết -->
+            <div class="row gy-4">
+                <!-- Họ và Tên -->
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Họ và Tên:</label>
+                    <p class="form-control-static">@hv.HoTenHV</p>
+                </div>
+
+                <!-- Địa chỉ -->
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Địa chỉ</label>
+                    <p class="form-control-static">@hv.DiaChi</p>
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Email:</label>
+                    <p class="form-control-static">@hv.Email</p>
+                </div>
+
+                <!-- Số điện thoại -->
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Số điện thoại:</label>
+                    <p class="form-control-static">@hv.SoDienThoai</p>
+                </div>
+
+                <!-- Ngày sinh -->
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Ngày sinh</label>
+                    <p class="form-control-static">@hv.NgaySinh</p>
+                </div>
+
+                <!-- Ngày đăng ký -->
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Ngày đăng ký</label>
+                    <p class="form-control-static">@hv.NgayDangKy</p>
+                </div>
+
+                <!-- Hoạt động -->
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Trạng thái:</label>
+                    <p class="form-control-static">
+                        <span class="badge bg-@((hv.TrangThai == 0) ? "success" : "secondary")">
+                            @(hv.TrangThai == 0 ? "Đang hoạt động" : "Ngừng hoạt động")
+                        </span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Nút Quay Lại -->
+            <div class="text-center mt-4">
+                <a asp-controller="HocVien" asp-action="Index" class="btn btn-warning px-5 py-2">
+                    <i class="bi bi-arrow-left-circle"></i> Quay lại
+                </a>
+            </div>
+        }
+    </div>
+
+    </div>
+</main>
+
+<style>
+    /* Phong cách chung */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    .pagetitle h2 {
+        color: #2c3e50;
+        border-bottom: 3px solid #3498db;
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+
+    .container {
+        border-radius: 15px;
+        background-color: #fff;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control-static {
+        font-size: 15px;
+        padding: 8px 12px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        color: #343a40;
+    }
+
+    .form-control-static img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 10px;
+    }
+
+    .badge-success {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .badge-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-warning {
+        background-color: #f39c12;
+        color: white;
+        font-weight: 600;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-warning:hover {
+        background-color: #e67e22;
+        transform: translateY(-2px);
+    }
+</style>

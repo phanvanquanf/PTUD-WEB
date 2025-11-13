@@ -1,0 +1,155 @@
+@using aznews.Areas.Teacher.Models;
+@model IList<TeacherMenu>;
+
+<style>
+    .sidebar-nav .nav-item .toggle-collapse {
+        cursor: pointer;
+        margin-left: auto;
+        font-size: 16px;
+        display: inline-block;
+        transform: rotate(0deg);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar-nav .nav-item .toggle-collapse.collapsed {
+        transform: rotate(-90deg);
+    }
+
+    .nav-content {
+        transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+    }
+
+    .nav-content.show {
+        max-height: 500px;
+        opacity: 1;
+    }
+</style>
+
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-heading">Bộ điều khiển</li>
+        @foreach (var menu in Model.Where(m => m.ItemLevel == 1).OrderBy(m => m.ItemOrder))
+        {
+            var pID = menu.TeacherMenuID;
+            var sMenu = Model.Where(s => s.ParentLevel == pID).OrderBy(s => s.ItemOrder).ToList();
+
+            if (sMenu.Count == 0)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="/Teacher/@menu.ControllerName/@menu.ActionName">
+                        <i class="bi bi-grid"></i>
+                        <span>@menu.ItemName</span>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link parent-menu" href="/Teacher/@menu.ControllerName/@menu.ActionName">
+                        <i class="@menu.Icon"></i>
+                        <span>@menu.ItemName</span>
+                        <i class="bi bi-chevron-down ms-auto toggle-collapse"
+                            data-bs-target="#collapse-@menu.TeacherMenuID"></i>
+                    </a>
+                    <ul id="collapse-@menu.TeacherMenuID" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                        @foreach (var smn in sMenu)
+                        {
+                            <li>
+                                <a href="/Teacher/@smn.ControllerName/@smn.ActionName">
+                                    <i class="bi bi-circle"></i>
+                                    <span>@smn.ItemName</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+
+            }
+        }
+
+        <li class="nav-heading">Trang</li>
+        <li class="nav-item">
+            <a class="nav-link" href="users-profile.html">
+                <i class="bi bi-person"></i>
+                <span>Hồ sơ</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="pages-faq.html">
+                <i class="bi bi-question-circle"></i>
+                <span>Câu hỏi thường gặp</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="pages-contact.html">
+                <i class="bi bi-envelope"></i>
+                <span>Liên hệ</span>
+            </a>
+        </li>
+    </ul>
+</aside>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const restoreMenuState = () => {
+            const savedState = JSON.parse(localStorage.getItem("sidebarState") || "{}");
+            Object.keys(savedState).forEach(id => {
+                const menu = document.getElementById(id);
+                const toggleIcon = document.querySelector(`[data-bs-target="#${id}"]`);
+                if (menu && savedState[id]) {
+                    menu.classList.add('show');
+                    toggleIcon.classList.remove('collapsed');
+                } else if (menu) {
+                    menu.classList.remove('show');
+                    toggleIcon.classList.add('collapsed');
+                }
+            });
+        };
+
+        const saveMenuState = () => {
+            const state = {};
+            document.querySelectorAll('.nav-content.collapse').forEach(menu => {
+                state[menu.id] = menu.classList.contains('show');
+            });
+            localStorage.setItem("sidebarState", JSON.stringify(state));
+        };
+
+        const setupToggleEvents = () => {
+            document.querySelectorAll('.toggle-collapse').forEach(toggle => {
+                toggle.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.dataset.bsTarget);
+
+                    if (target) {
+                        const isOpen = target.classList.contains('show');
+                        if (isOpen) {
+                            target.classList.remove('show');
+                        } else {
+                            target.classList.add('show');
+                        }
+
+                        saveMenuState();
+                    }
+                });
+            });
+
+            document.querySelectorAll('.nav-content a').forEach(submenuLink => {
+                submenuLink.addEventListener('click', function (e) {
+                    const target = document.querySelector(this.closest('.nav-content').dataset.bsTarget);
+                    if (target) {
+                        target.classList.remove('show');
+                        setTimeout(() => {
+                            target.classList.add('show');
+                        }, 3000);
+                    }
+                });
+            });
+        };
+
+        restoreMenuState();
+        setupToggleEvents();
+    });
+</script>

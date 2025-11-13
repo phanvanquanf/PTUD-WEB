@@ -1,0 +1,211 @@
+@using aznews.Models;
+@using aznews.Utilities;
+@model IList<aznews.Models.viewKhoaHoc>
+
+<style>
+    .row {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        /* Cho phép bọc dòng nếu cần */
+    }
+
+    .box-title {
+        margin-top: 30px;
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 24px;
+        font-weight: 500;
+    }
+
+    .item-KH {
+        max-width: 256px;
+        height: auto;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: left;
+        box-sizing: border-box;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .col-md-3 {
+        padding: 0 !important;
+    }
+
+    .anhKH img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px 8px 0 0;
+        display: block;
+    }
+
+    .title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #007bff;
+        margin: 10px;
+    }
+
+    .title a {
+        color: inherit;
+        text-decoration: none;
+        transition: color 0.3s;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+    .title:hover {
+        color: #0056b3;
+    }
+
+    .tacgia {
+        font-size: 14px;
+        color: #555;
+    }
+
+    .container-fluid {
+        text-align: left;
+        max-width: 1340px;
+    }
+
+    .banner {
+        margin: 20px auto;
+        text-align: center;
+        /* Căn giữa banner */
+    }
+
+    .banner img {
+        max-width: 100%;
+        /* Đảm bảo banner không vượt quá chiều rộng */
+        height: auto;
+    }
+
+    p {
+        color: #6c757d;
+    }
+
+    .row-2 {
+        display: flex;
+        max-width: 1050px;
+        margin-left: -16px;
+    }
+
+    .row-2 .item-KH {
+        margin-right: 17px;
+    }
+
+    .row-3 {
+        display: flex;
+        max-width: 1050px;
+        margin-left: -16px;
+    }
+
+    .row-3 .item-KH {
+        margin-right: 17px;
+    }
+
+    .banner-img {
+        width: 100%;
+        /* Đặt chiều rộng 100% của phần tử cha */
+        max-width: 1340px;
+        /* Đặt chiều rộng tối đa là 1340px */
+        height: auto;
+        /* Tự động điều chỉnh chiều cao để giữ tỷ lệ */
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="banner">
+        <img src="assets/img/trangkhoahoc/banner10.png" alt="Banner" class="banner-img">
+    </div>
+
+    <div class="box-title">
+        <span
+            style="font-size: 30px;font-weight: 500; border-left: 12px solid rgb(40, 177, 255); padding-left: 10px; color: #007bff;">Lớp
+            10 - Toán Học</span>
+    </div>
+    <div class="row">
+        @foreach (var Lop10 in Model.Where(model => model.Lop == 10 && model.Mon == "Toán"))
+        {
+            string url = Functions.TitleSlugGeneration("BaiGiang", Lop10.TenKH, Lop10.IDKhoaHoc);
+            <div class="col-md-3 item-KH">
+                <div class="anhKH">
+                    <img src="@Lop10.Anh" alt="@Lop10.TenKH">
+                </div>
+                <div class="title">
+                    <a href="/@url">@Lop10.TenKH</a>
+                    <div class="thoigianhoc">
+                        <p>@Lop10.ThoiGian</p>
+                    </div>
+                    <div class="hocphi">
+                        <p>@Lop10.HocPhi</p>
+                    </div>
+                    <div class="tacgia">
+                        <p>Tác giả: @Lop10.HoTen</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="box-title">
+        <span
+            style="font-size: 30px;font-weight: 500; border-left: 12px solid rgb(40, 177, 255); padding-left: 10px; color: #007bff;">Lớp
+            10 - Ngữ Văn</span>
+    </div>
+    <div class="row-2">
+        @foreach (var Lop10 in Model.Where(model => model.Lop == 10 && model.Mon == "Ngữ văn"))
+        {
+            string url = Functions.TitleSlugGeneration("BaiGiang", Lop10.TenKH, Lop10.IDKhoaHoc);
+            <div class="col-md-3 item-KH">
+                <div class="anhKH">
+                    <img src="@Lop10.Anh" alt="@Lop10.TenKH">
+                </div>
+                <div class="title">
+                    <a href="#">@Lop10.TenKH</a>
+                    <div class="thoigianhoc">
+                        <p>@Lop10.ThoiGian</p>
+                    </div>
+                    <div class="hocphi">
+                        <p>@Lop10.HocPhi</p>
+                    </div>
+                    <div class="tacgia">
+                        <p>Tác giả: @Lop10.HoTen</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="box-title">
+        <span
+            style="font-size: 30px;font-weight: 500; border-left: 12px solid rgb(40, 177, 255); padding-left: 10px; color: #007bff;">Lớp
+            10 - Tiếng Anh</span>
+    </div>
+    <div class="row-3">
+        @foreach (var Lop10 in Model.Where(model => model.Lop == 10 && model.Mon == "Tiếng Anh"))
+        {
+            string url = Functions.TitleSlugGeneration("BaiGiang", Lop10.TenKH, Lop10.IDKhoaHoc);
+            <div class="col-md-3 item-KH">
+                <div class="anhKH">
+                    <img src="@Lop10.Anh" alt="@Lop10.TenKH">
+                </div>
+                <div class="title">
+                    <a href="#">@Lop10.TenKH</a>
+                    <div class="thoigianhoc">
+                        <p>@Lop10.ThoiGian</p>
+                    </div>
+                    <div class="hocphi">
+                        <p>@Lop10.HocPhi</p>
+                    </div>
+                    <div class="tacgia">
+                        <p>Tác giả: @Lop10.HoTen</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,182 @@
+@using aznews.Utilities;
+@model aznews.Models.tblBaiGiang;
+@{
+    Layout = "~/Areas/Teacher/Views/Shared/_LayoutAdmin.cshtml";
+    var summerNote = new aznews.Areas.Teacher.Models.SummerNote("#ND");
+    var summerNote1 = new aznews.Areas.Teacher.Models.SummerNote("#MTa");
+    <partial name="_SummerNote" model="summerNote" />
+    <partial name="_SummerNote" model="summerNote1" />
+}
+
+<main id="main" class="main">
+    <div class="pagetitle mb-4">
+        <h2 class="text-uppercase font-weight-bold text-primary text-center">
+            Thêm bài giảng
+        </h2>
+    </div>
+    <div class="container shadow p-5 my-5 bg-light rounded">
+        <form method="POST" asp-action="Create2" enctype="multipart/form-data">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <select asp-for="IDKhoaHoc" class="form-control custom-select"
+                        asp-items="@(new SelectList(ViewBag.tenkh, "Value", "Text"))" id="IDGiaoVien">
+                        <option value="">---Chọn khóa học---</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <select asp-for="GVienID" class="form-control custom-select"
+                        asp-items="@(new SelectList(ViewBag.nameGV, "Value", "Text"))" id="IDGiaoVien">
+                        <option value="">--- Chọn giáo viên ---</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <select asp-for="IDChuong" class="form-control custom-select"
+                        asp-items="@(new SelectList(ViewBag.chuongList, "Value", "Text"))" id="IDChuong">
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="TenBaiHoc" class="form-label">Tên bài học</label>
+                    <input type="text" class="form-control" asp-for="TenBaiHoc" placeholder="Nhập tên bài học..." />
+                    <span asp-validation-for="TenBaiHoc" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="Link" class="form-label">ID Video</label>
+                    <input type="text" asp-for="Link" class="form-control" placeholder="Nhập liên kết..." />
+                    <span asp-validation-for="Link" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <label for="MoTa" class="form-label">Mô Tả</label>
+                    <textarea asp-for="MoTa" class="form-control" rows="5" id="MTa" placeholder="Mô tả bài giảng..."
+                        required></textarea>
+                    <span asp-validation-for="MoTa" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <label for="NoiDung" class="form-label">Nội dung</label>
+                    <textarea asp-for="NDung" class="form-control" id="ND" rows="5"
+                        placeholder="Nhập nội dung bài giảng..." required></textarea>
+                    <span asp-validation-for="NDung" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="SoLuotHoc" class="form-label">Số lượt học</label>
+                    <input class="form-control" asp-for="SoLuotHoc" placeholder="Nhập số lượt học..." />
+                    <span asp-validation-for="SoLuotHoc" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="ThuTu" class="form-label">Thứ tự</label>
+                    <input type="number" class="form-control" asp-for="ThuTu" />
+                    <span asp-validation-for="ThuTu" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="ThoiLuong" class="form-label">Thời lượng</label>
+                    <input type="text" class="form-control" asp-for="ThoiLuong" placeholder="Nhập thời lượng..." />
+                    <span asp-validation-for="ThoiLuong" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="TrangThai" class="form-label">Trạng thái</label>
+                    <select asp-for="HoatDong" class="form-control">
+                        <option value="True">Đang hoạt động</option>
+                        <option value="False">Ngừng hoạt động</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="MenuID" class="form-label">Menu name</label>
+                    <select asp-for="MenuID" class="form-control custom-select"
+                        asp-items="@(new SelectList(ViewBag.mnList, "Value", "Text"))" id="MenuID" disabled>
+                        <option value="1">Khóa Học</option>
+                    </select>
+                    <input type="hidden" asp-for="MenuID" value="6" />
+                </div>
+
+            </div>
+
+            <div class="col-12 text-center mt-4">
+                <button type="submit" class="btn btn-primary btn-lg w-50">
+                    <i class="bi bi-save"></i> Thêm bài giảng
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7fa;
+    }
+
+    .pagetitle h2 {
+        color: #2c3e50;
+    }
+
+    .container {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control,
+    .form-select,
+    .custom-select {
+        border-radius: 8px;
+        font-size: 14px;
+        padding: 10px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .btn-outline-primary {
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        color: white;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+    }
+
+    .input-group {
+        border-radius: 8px;
+    }
+
+    /* Validation Error Styling */
+    .text-danger {
+        font-size: 12px;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.7);
+        border-color: #3498db;
+    }
+
+    a {
+        text-decoration: none !important;
+    }
+</style>

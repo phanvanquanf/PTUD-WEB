@@ -1,0 +1,40 @@
+@using aznews.Models;
+@using aznews.Utilities;
+@model IList<viewGiangVien>;
+
+<div class="col-12">
+    <div class="card recent-sales overflow-auto">
+        <div class="card-body">
+            <h5 class="card-title">Danh sách giáo viên<span>| Hiện tại</span></h5>
+            <table class="table table-borderless datatable">
+                <thead>
+                    <tr>
+                        <th scope="col">TT</th>
+                        <th scope="col">Họ và tên</th>
+                        <th scope="col">Môn</th>
+                        <th scope="col">Nơi công tác</th>
+                        <th scope="col">Học Vị</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var giangvien = Model.Take(5).ToList();
+                        var count = 1;
+                        foreach (var gv in giangvien)
+                        {
+                            string url = Functions.TitleSlugGeneration("giaovien", gv.HoTen, gv.GvienID);
+                            <tr>
+                                <th scope="row">@count</th>
+                                <td><a href="/@url">@gv.HoTen</a></td>
+                                <td>@gv.Mon</td>
+                                <td>@gv.NoiCongTac</td>
+                                <td>@gv.HocVi</td>
+                            </tr>
+                            count++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,219 @@
+@using aznews.Models;
+@using aznews.Utilities;
+@model IList<aznews.Models.viewDienDan>
+
+<style>
+    .section-padding {
+        padding: 10px;
+    }
+</style>
+<section class="blog_area section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mb-5 mb-lg-0">
+                <div class="blog_left_sidebar">
+                    @foreach (var fb in Model.OrderByDescending(fb => fb.NgayTao).ToList())
+                    {
+                        string url = Functions.TitleSlugGeneration("diendan", fb.TenBaiViet, fb.IDBaiViet);
+                        <article class="blog_item">
+                            <div class="blog_item_img">
+                                <img class="card-img rounded-0" src="@fb.Anh" alt="">
+                                <a href="/@url" class="blog_item_date">
+                                    <h3>@(fb.NgayTao.HasValue ? fb.NgayTao.Value.ToString("dd") : "N/A")</h3>
+                                    <p>@(fb.NgayTao.HasValue ? fb.NgayTao.Value.ToString("MMM") : "N/A")</p>
+                                </a>
+                            </div>
+                            <div class="blog_details">
+                                <a class="d-inline-block" href="/@url">
+                                    <h2>@fb.TenBaiViet</h2>
+                                </a>
+                                <p>@fb.TieuDe</p>
+                                <ul class="blog-info-link">
+                                    <li><a href="#"><i class="fa fa-user"></i> @fb.MenuName</a></li>
+                                    <li><a href="#"><i class="fa fa-comments"></i>5 Bình luận</a></li>
+                                </ul>
+                            </div>
+                        </article>
+                    }
+                    <nav class="blog-pagination justify-content-center d-flex">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a href="#" class="page-link" aria-label="Previous">
+                                    <i class="ti-angle-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link">1</a>
+                            </li>
+                            <li class="page-item active">
+                                <a href="#" class="page-link">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link" aria-label="Next">
+                                    <i class="ti-angle-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="blog_right_sidebar">
+                    <aside class="single_sidebar_widget search_widget">
+                        <form action="#">
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder='Từ khóa'
+                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
+                                    <div class="input-group-append">
+                                        <button class="btns" type="button"><i class="ti-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                type="submit">Tìm kiếm</button>
+                        </form>
+                    </aside>
+
+                    <aside class="single_sidebar_widget post_category_widget">
+                        <h4 class="widget_title">Thể loại</h4>
+                        <ul class="list cat-list">
+                            <li>
+                                <a href="#" class="d-flex">
+                                    <p>Bí Kíp</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="d-flex">
+                                    <p>Sự Kiện</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="d-flex">
+                                    <p>Tin Tức</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </aside>
+
+                    <aside class="single_sidebar_widget popular_post_widget">
+                        <h3 class="widget_title">Recent Post</h3>
+                        @foreach (var bviet in Model.Take(5).ToList())
+                        {
+                            string url = Functions.TitleSlugGeneration("diendan", bviet.TenBaiViet, bviet.IDBaiViet);
+                            <div class="media post_item">
+                                <img src="@bviet.Anh" alt="@bviet.TenBaiViet" width="80" height="80">
+                                <div class="media-body">
+                                    <a href="/@url">
+                                        <h3>@bviet.TenBaiViet</h3>
+                                    </a>
+                                    <p>
+                                        @if (bviet.NgayTao.HasValue)
+                                        {
+                                            var daysDifference = (DateTime.Now - bviet.NgayTao.Value).Days;
+                                            <text>Đã đăng cách đây @daysDifference ngày</text>
+                                        }
+                                        else
+                                        {
+                                            <text>Ngày đăng không hợp lệ</text>
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        }
+                    </aside>
+                    <aside class="single_sidebar_widget tag_cloud_widget">
+                        <h4 class="widget_title">Các thẻ</h4>
+                        <ul class="list">
+                            <li>
+                                <a href="#">
+                                    <p>Lớp 10</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <p>Lớp 11</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <p>Lớp 12</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <p>Sự Kiện</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <p>Tin Tức</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <p>Bí Kíp</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="d-flex">
+                                    <p>Khoa Học</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </aside>
+
+                    <aside class="single_sidebar_widget instagram_feeds">
+                        <h4 class="widget_title">Một số hình ảnh</h4>
+                        <ul class="instagram_row flex-wrap">
+                            <li>
+                                <a href="#">
+                                    <img class="img-fluid" src="assets/img/motsohinhanh/anh1.jpg" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img class="img-fluid" src="assets/img/motsohinhanh/anh2.jpg" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img class="img-fluid" src="assets/img/motsohinhanh/anh3.jpg" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img class="img-fluid" src="assets/img/motsohinhanh/anh4.jpg" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img class="img-fluid" src="assets/img/motsohinhanh/anh5.jpg" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img class="img-fluid" src="assets/img/motsohinhanh/anh6.jpg" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                    </aside>
+
+                    <aside class="single_sidebar_widget newsletter_widget">
+                        <h4 class="widget_title">Đăng ký nhận tin</h4>
+
+                        <form action="#">
+                            <div class="form-group">
+                                <input type="email" class="form-control" onfocus="this.placeholder = ''"
+                                    onblur="this.placeholder = 'Nhập email'" placeholder='Enter email' required>
+                            </div>
+                            <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                type="submit">Đăng ký</button>
+                        </form>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================Blog Area =================-->

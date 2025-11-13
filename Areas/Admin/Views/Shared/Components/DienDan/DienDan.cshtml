@@ -1,0 +1,42 @@
+@using aznews.Models;
+@using aznews.Utilities
+@model IList<viewDienDan>
+
+
+<!-- News & Updates Traffic -->
+<div class="card">
+    <div class="filter">
+        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+            <li class="dropdown-header text-start">
+                <h6>Danh sách</h6>
+            </li>
+
+            <li><a class="dropdown-item" href="#">Hiện tại</a></li>
+            <li><a class="dropdown-item" href="#">Trong tháng</a></li>
+            <li><a class="dropdown-item" href="#">Trong năm</a></li>
+        </ul>
+    </div>
+
+    <div class="card-body pb-0">
+        <h5 class="card-title">Bài viết mới &amp; Cập nhật <span>| Hiện tại</span></h5>
+
+        <div class="news">
+            @{
+                var fiveNews = Model.Take(5).ToList();
+                foreach (var f in fiveNews)
+                {
+                    string url = Functions.TitleSlugGeneration("diendan", f.TenBaiViet, f.IDBaiViet);
+                    <div class="post-item clearfix">
+                        <img src="@f.Anh" alt="">
+                        <h4><a href="/@url">@f.TenBaiViet</a></h4>
+                        <p>@f.TieuDe</p>
+                    </div>
+                }
+            }
+
+        </div><!-- End sidebar recent posts-->
+
+    </div>
+</div>
+<!-- End News & Updates -->

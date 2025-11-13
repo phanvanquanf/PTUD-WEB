@@ -1,0 +1,135 @@
+@using aznews.Models;
+@model IList<tblDienDan>;
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle mb-4">
+        <h2 class="text-uppercase font-weight-bold text-primary">Chi tiết bài viết</h2>
+    </div>
+    <div class="container shadow-lg p-5 my-5 bg-white rounded">
+        @foreach (var item in Model)
+        {
+            <div class="row mb-4 pb-4 border-bottom">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Menu Name</label>
+                    <p class="form-control-static">Diễn đàn</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">ID bài viết</label>
+                    <p class="form-control-static">@item.IDBaiViet</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Tên bài viết</label>
+                    <p class="form-control-static">@item.TenBaiViet</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Tiêu đề</label>
+                    <p class="form-control-static">@item.TieuDe</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Hình ảnh</label>
+                    <p class="form-control-static">@item.Anh</p>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <label class="form-label">Nội dung</label>
+                    <div class="form-control-static">
+                        @Html.Raw(item.NoiDung)
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Ngày tạo</label>
+                    <p class="form-control-static">@item.NgayTao</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Thứ tự</label>
+                    <p class="form-control-static">@item.ThuTu</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Hoạt động</label>
+                    <p class="form-control-static">@item.HoatDong</p>
+                </div>
+            </div>
+        }
+        <div class="form-actions mt-4">
+            <a asp-controller="DienDan" asp-action="Index" class="btn btn-warning px-4 py-2 d-flex align-items-center">
+                <i class="bi bi-arrow-left-circle me-2"></i> Quay lại
+            </a>
+        </div>
+    </div>
+</main>
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f9fafb;
+    }
+
+    .pagetitle h2 {
+        color: #2c3e50;
+        border-bottom: 3px solid #3498db;
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+
+    .container {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        font-size: 14px;
+        color: #495057;
+    }
+
+    .form-control-static {
+        font-size: 15px;
+        padding: 8px 12px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        color: #343a40;
+        line-height: 1.5;
+    }
+
+    .form-control-static img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 10px;
+    }
+
+    .btn-warning {
+        background-color: #f39c12;
+        color: white;
+        font-weight: 600;
+        text-transform: uppercase;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-warning:hover {
+        background-color: #e67e22;
+        transform: translateY(-2px);
+    }
+
+    .row {
+        margin-bottom: 15px;
+    }
+
+    .form-actions {
+        text-align: center;
+    }
+</style>

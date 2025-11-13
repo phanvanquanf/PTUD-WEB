@@ -1,0 +1,121 @@
+@using aznews.Models;
+@using aznews.Utilities;
+@model IList<tblMenu>;
+<header>
+    <!-- Header Start -->
+    <div class="header-area">
+        <div class="main-header ">
+            <div class="header-top black-bg d-none d-md-block">
+                <div class="container">
+                    <div class="col-xl-12">
+                        <div class="row d-flex justify-content-between align-items-center">
+                            <div class="header-info-left">
+                                <ul>
+                                    <li><img src="assets/img/icon/header_icon1.png" alt="">34ºc, Chủ nhật </li>
+                                    <li><img src="assets/img/icon/header_icon1.png" alt="">Thứ 3, 18 tháng 10, 2024
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="header-info-right">
+                                <ul class="header-social">
+                                    <li><a href="/Menu-hoc-vien-5.vn"><i
+                                                class="fas fa-user"></i>@Functions._TenNguoiDung</a>
+                                    </li>
+                                    <li><a href="Admin/Login/Index"><i class="fas fa-sign-out-alt"></i>
+                                            Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-mid d-none d-md-block">
+                <div class="container">
+                    <div class="row d-flex align-items-center">
+                        <!-- Logo -->
+                        <div class="col-xl-3 col-lg-3 col-md-3">
+                            <div class="logo">
+                                <a href="/Menu-trang-chu-1.vn">
+                                    <img src="assets/img/logo.png" alt="" width="250px" height="100px">
+                                </a>
+                            </div>
+                        </div>
+                        <div class=" col-xl-9 col-lg-9 col-md-9">
+                            <div class="header-banner f-right ">
+                                <img src="assets/img/banner.png" width="750px" height="100px" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-bottom header-sticky">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xl-10 col-lg-10 col-md-12 header-flex">
+                            <!-- sticky -->
+                            <div class="sticky-logo">
+                                <a href="/Menu-trang-chu-1.vn"><img src="assets/img/logo.png" alt="" width="185px"
+                                        height="62px">
+                                </a>
+                            </div>
+                            <!-- Main-menu -->
+                            <div class="main-menu d-none d-md-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        @foreach (var menu in Model.Where(m => m.Levels == 1).OrderBy(m => m.MenuOrder))
+                                        {
+                                            string url = Functions.TitleSlugGeneration("Menu", menu.MenuName, menu.MenuID);
+                                            var pID = menu.MenuID;
+                                            var sMenu = Model.Where(s => s.ParentID == pID).OrderBy(s =>
+                                            s.MenuOrder).ToList();
+
+                                            // Nếu không có menu con
+                                            if (sMenu.Count == 0)
+                                            {
+                                                <li>
+                                                    <a href="/@url">@menu.MenuName</a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <a href="/@url">@menu.MenuName</a>
+                                                    <ul class="submenu">
+                                                        @foreach (var smn in sMenu)
+                                                        {
+                                                            string url1 = Functions.TitleSlugGeneration("menu", smn.MenuName,
+                                                            smn.MenuID);
+                                                            <li>
+                                                                <a href="/@url1">@smn.MenuName</a>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                </li>
+
+                                            }
+                                        }
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-4">
+                            <div class="header-right-btn f-right d-none d-lg-block">
+                                <i class="fas fa-search special-tag"></i>
+                                <div class="search-box">
+                                    <form action="#">
+                                        <input type="text" placeholder="Search">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Mobile Menu -->
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-md-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+</header>

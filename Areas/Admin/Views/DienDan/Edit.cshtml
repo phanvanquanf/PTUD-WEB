@@ -1,0 +1,156 @@
+@using aznews.Utilities;
+@model aznews.Models.tblDienDan;
+@{
+    var summerNote = new aznews.Areas.Admin.Models.SummerNote("#NoiDung");
+    <partial name="_SummerNote" model="summerNote" />
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle mb-4">
+        <h2 class="text-uppercase font-weight-bold text-primary">Sửa bài viết</h2>
+    </div>
+    <div class="container shadow-lg p-5 my-5 bg-white rounded">
+        <form method="Post" asp-action="Edit">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="MenuID" class="form-label">Menu name</label>
+                    <select asp-for="MenuID" class="form-control custom-select"
+                        asp-items="@(new SelectList(ViewBag.mnList, "Value", "Text"))" id="MenuID">
+                        <option value="6" selected>Diễn đàn</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="IDBaiViet" class="form-label">ID bài Viết</label>
+                    <input type="text" class="form-control" asp-for="IDBaiViet" disabled>
+                    <input type="hidden" asp-for="IDBaiViet" />
+                    <span asp-validation-for=" IDBaiViet" class="text-danger"></span>
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+                    <label for="TenBaiViet" class="form-label">Tên bài viết</label>
+                    <input type="text" class="form-control" asp-for="TenBaiViet" placeholder="Nhập tiêu đề bài viết..."
+                        required>
+                    <span asp-validation-for="TenBaiViet" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="TieuDe" class="form-label">Tiêu đề</label>
+                    <input type="text" class="form-control" asp-for="TieuDe" placeholder="Nhập tiêu đề..." required>
+                    <span asp-validation-for="TieuDe" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="Anh" class="form-label">Ảnh</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-primary" type="button" onclick="openDialog('file_input')">Chọn
+                            ảnh</button>
+                        <input type="text" class="form-control" asp-for="Anh" id="file_input"
+                            aria-describedby="button-addon2">
+                    </div>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <label for="NoiDung" class="form-label">Nội dung</label>
+                    <textarea asp-for="NoiDung" class="form-control summernote" rows="5"
+                        placeholder="Nhập nội dung bài viết..."></textarea>
+                    <span asp-validation-for="NoiDung" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="NgayTao" class="form-label">Ngày tạo</label>
+                    <input asp-for="NgayTao" class="form-control" value="@Functions.getCurrentDate()">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="ThuTu" class="form-label">Thứ tự</label>
+                    <input asp-for="ThuTu" class="form-control" value="0" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="HoatDong" class="form-label">Hoạt động</label>
+                    <select asp-for="HoatDong" class="form-select form-select-lg" id="IsActive">
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary p-2 d-flex align-items-center">
+                    <i class="bi bi-file-plus-fill"></i> Lưu thay đổi
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7fa;
+    }
+
+    .pagetitle h2 {
+        color: #2c3e50;
+    }
+
+    .container {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control,
+    .form-select,
+    .custom-select {
+        border-radius: 8px;
+        font-size: 14px;
+        padding: 10px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: bold !important;
+        color: #2c3e50;
+    }
+
+    .btn-outline-primary {
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        color: white;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+    }
+
+    .input-group {
+        border-radius: 8px;
+    }
+
+    .text-danger {
+        font-size: 12px;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.7);
+        border-color: #3498db;
+    }
+
+    a {
+        text-decoration: none !important;
+    }
+</style>

@@ -1,0 +1,568 @@
+@using aznews.Models;
+@using aznews.Utilities;
+@model IList<aznews.Models.viewBaiGiang>;
+
+<div class="header">
+    <h1 id="TenKhoaHoc">@Model.FirstOrDefault()?.TenKH</h1>
+</div>
+
+<div class="container-fluid">
+    <div class="main-content">
+        <div class="video-player">
+            <iframe id="video" src="https://www.youtube.com/embed/@Model.FirstOrDefault()?.Link?enablejsapi=1" width="100%" height="360"
+                frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="course-info">
+            <h2 id="TenBaiHoc">@Model.FirstOrDefault()?.TenBaiHoc</h2>
+            <p id="ThongTin">Độ dài: @Model.FirstOrDefault()?.ThoiLuong phút - Số lượt học:
+                @Model.FirstOrDefault()?.SoLuotHoc</p>
+        </div>
+
+        <div class="interaction-buttons">
+            <button onclick="showSection('comments')">Trao đổi bài</button>
+            <button onclick="showSection('notes')">Ghi chú</button>
+            <button onclick="showSection('announcements')">Thông báo về khóa học</button>
+            <button onclick="showSection('support')">Hỗ trợ</button>
+        </div>
+
+        <!-- Nội dung hiển thị khi nhấn nút -->
+        <div id="comments" class="content-section" style="display: none;">
+            <h4>Bình luận</h4>
+            <textarea placeholder="Viết bình luận của bạn..."></textarea>
+            <button class="submit-button" onclick="submitContent('comments')">Gửi</button>
+            <div id="comments-message" class="success-message">Đã gửi thành công!</div>
+
+            <div class="comments-list" id="comments-list">
+                <div class="comment-item">
+                    <strong>Nguyễn Văn A:</strong>
+                    <p>Video rất hữu ích, cảm ơn thầy!</p>
+                </div>
+                <div class="comment-item">
+                    <strong>Trần Thị B:</strong>
+                    <p>Hướng dẫn rất rõ ràng, dễ hiểu!</p>
+                </div>
+                <div class="comment-item">
+                    <strong>Nguyễn Văn C:</strong>
+                    <p>Tôi đã học được nhiều điều mới từ video này!</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="notes" class="content-section" style="display: none;">
+            <h4>Ghi chú</h4>
+            <textarea placeholder="Viết ghi chú của bạn..."></textarea>
+            <button class="submit-button" onclick="submitContent('notes')">Lưu</button>
+            <div id="notes-message" class="success-message">Lưu thành công!</div>
+        </div>
+
+        <div id="announcements" class="content-section" style="display: none;">
+            <h4>Thông báo về khóa học</h4>
+            <p>Không có.</p>
+        </div>
+
+        <div id="support" class="content-section" style="display: none;">
+            <h4>Hỗ trợ</h4>
+            <form>
+                <label>Số điện thoại:</label>
+                <input type="tel" placeholder="Nhập số điện thoại của bạn">
+                <label>Thời gian xảy ra lỗi:</label>
+                <input type="datetime-local">
+                <label>Ghi lỗi:</label>
+                <textarea placeholder="Mô tả lỗi..."></textarea>
+                <button type="button" class="submit-button" onclick="submitContent('support')">Gửi</button>
+                <div id="support-message" class="success-message">Báo lỗi thành công!</div>
+            </form>
+        </div>
+            <div class="ThongtinKH">
+            <h2>Mô tả khóa học</h2>
+            <p id="MoTa">@Model.FirstOrDefault()?MoTa</p>
+
+            <h4>Nội dung khóa học</h4>
+            <p id="NoiDung">@Model.FirstOrDefault()?MoTa</p>
+            </div>
+    </div>
+
+
+    <div class="sidebar">
+        <h3>Đề cương khóa học</h3>
+        <ul>
+            @foreach (var bgiang in Model.GroupBy(bgiang => bgiang.TenChuong))
+            {
+                <li>
+                    <div class="title">@bgiang.Key</div>
+                    <ul>
+                        @foreach (var baihoc in bgiang)
+                        {
+                            <li>
+                                <div class="progress-circle" data-video-id="@baihoc.Link">
+                                    <span>0%</span>
+                                </div>
+                                <a href="@Html.DisplayFor(model => baihoc.Link)" data-video-id="@baihoc.Link" data-tenkh="@baihoc.TenKH"
+                                    data-tenbh="@baihoc.TenBaiHoc" data-thoiluong="@baihoc.ThoiLuong"
+                                    data-soluothoc="@baihoc.SoLuotHoc" data-mota="@baihoc.MoTa" data-noidung="@baihoc.NDung"
+                                    onclick="changeContent('@baihoc.TenKH','@baihoc.TenBaiHoc',
+                                             '@baihoc.ThoiLuong', '@baihoc.SoLuotHoc', 
+                                             '@baihoc.MoTa', '@baihoc.NDung')">
+                                    @Html.DisplayFor(model => baihoc.TenBaiHoc)
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+
+        </ul>
+    </div>
+</div>
+<script>
+    function changeContent(tenkh, tenbh, thoiluong, soluothoc, mota, noidung) {
+        document.getElementById('TenKhoaHoc').textContent = tenkh;
+        document.getElementById('TenBaiHoc').textContent = tenbh;
+        document.getElementById('ThongTin').textContent = `Thời lượng: ${thoiluong} phút - Số lượt xem: ${soluothoc}`;
+        document.getElementById('MoTa').textContent = mota;
+        document.getElementById('NoiDung').textContent = noidung;
+    }
+
+    //Phần hỗ trợ
+    function showSection(sectionId) {
+        // Ẩn tất cả các phần
+        const sections = document.querySelectorAll('.content-section');
+        sections.forEach(section => section.style.display = 'none');
+
+        // Hiển thị phần đã chọn
+        document.getElementById(sectionId).style.display = 'block';
+    }
+
+    //Phần hiện thông báo gửi
+    function submitContent(sectionId) {
+        // Hiển thị thông báo thành công tương ứng
+        const messageId = sectionId + '-message';
+        const messageElement = document.getElementById(messageId);
+        messageElement.style.display = 'block';
+        // Ẩn thông báo sau 3 giây
+        setTimeout(() => {
+            messageElement.style.display = 'none';
+        }, 3000);
+    }
+
+    //Phần video
+    let player;
+    let progressInterval;
+    let isPlaying = false;
+
+    // Khi API của YouTube iframe sẵn sàng
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('video', {
+            events: {
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+
+    // Khi trạng thái của player thay đổi
+    function onPlayerStateChange(event) {
+        const videoId = event.target.getVideoData().video_id;
+
+        if (event.data === YT.PlayerState.PLAYING) {
+            isPlaying = true;
+            localStorage.setItem(`isPlaying_${videoId}`, true);
+            updateProgress(videoId);
+        } else {
+            isPlaying = false;
+            localStorage.setItem(`isPlaying_${videoId}`, false);
+            clearInterval(progressInterval);
+        }
+    }
+
+    // Cập nhật tiến trình xem video
+    function updateProgress(videoId) {
+        progressInterval = setInterval(() => {
+            const currentTime = player.getCurrentTime();
+            const duration = player.getDuration();
+            const progress = (currentTime / duration) * 100;
+
+            // Lấy tiến trình đã lưu từ localStorage
+            const savedProgress = parseFloat(localStorage.getItem(`progress_${videoId}`)) || 0;
+
+            // Chỉ cập nhật nếu tiến trình hiện tại lớn hơn tiến trình đã lưu
+            if (progress > savedProgress) {
+                localStorage.setItem(`progress_${videoId}`, progress);
+            }
+            // Lấy giá trị tiến trình tối đa giữa tiến trình hiện tại và tiến trình đã lưu
+            const maxProgress = Math.max(progress, savedProgress);
+
+            const currentProgressCircle = document.querySelector(`.progress-circle[data-video-id="${videoId}"]`);
+            if (currentProgressCircle) {
+                currentProgressCircle.style.setProperty('--progress', `${maxProgress}%`);
+                currentProgressCircle.querySelector('span').innerText = `${Math.round(maxProgress)}%`;
+            }
+
+            // Kiểm tra nếu video đã xem xong
+            if (maxProgress >= 100) {
+                clearInterval(progressInterval);
+                localStorage.setItem(`watched_${videoId}`, true);
+            }
+        }, 1000);
+    }
+
+
+    // Tải tiến trình đã lưu từ localStorage
+    function loadProgress(videoId) {
+        const savedProgress = localStorage.getItem(`progress_${videoId}`);
+        const watched = localStorage.getItem(`watched_${videoId}`);
+        const currentProgressCircle = document.querySelector(`.progress-circle[data-video-id="${videoId}"]`);
+
+        if (watched) {
+            currentProgressCircle.style.setProperty('--progress', `100%`);
+            currentProgressCircle.querySelector('span').innerText = `Đã xem 100%`;
+        } else if (savedProgress) {
+            currentProgressCircle.style.setProperty('--progress', `${savedProgress}%`);
+            currentProgressCircle.querySelector('span').innerText = `${Math.round(savedProgress)}%`;
+        } else {
+            currentProgressCircle.style.setProperty('--progress', `0%`);
+            currentProgressCircle.querySelector('span').innerText = `0%`;
+        }
+    }
+
+
+    document.querySelectorAll('a[data-video-id]').forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const videoId = link.getAttribute('data-video-id');
+            localStorage.setItem('currentVideoId', videoId);
+            const videoData = link.dataset; // Lấy các dữ liệu liên quan từ data-attributes
+
+                changeContent(
+                videoData.tenkh, // Tên khóa học
+                videoData.tenbh,   // Tiêu đề video
+                videoData.thoiluong, // Thời gian video
+                videoData.soluothoc,    // Lượt xem
+                videoData.mota,      // Mô tả
+                videoData.noidung,    // Nội dung
+                videoId,
+                );
+                // Cập nhật nội dung video
+            
+            player.loadVideoById(videoId);
+            clearInterval(progressInterval);
+            loadProgress(videoId);
+            isPlaying = false;
+        });        
+    });
+
+    
+
+    window.onload = function () {
+        document.querySelectorAll('.progress-circle').forEach(circle => {
+            const videoId = circle.getAttribute('data-video-id');
+            loadProgress(videoId);
+        });
+
+        const currentVideoId = localStorage.getItem('currentVideoId');
+        if (currentVideoId) {
+            const videoData = document.querySelector(`a[data-video-id="${currentVideoId}"]`).dataset;
+            changeContent(
+            videoData.tenkh,
+            videoData.tenbh,
+            videoData.thoiluong,
+            videoData.soluothoc,
+            videoData.mota,
+            videoData.noidung
+            );
+            player.loadVideoById(currentVideoId);
+            loadProgress(currentVideoId);
+        }  
+            const isVideoPlaying = localStorage.getItem(`isPlaying_${currentVideoId}`);
+            if (isVideoPlaying === "true") {
+                isPlaying = true;
+                updateProgress(currentVideoId);
+            }
+    };
+
+
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+</script>
+<style>
+    .header {
+        background-color: #0056b3;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 26px;
+        font-weight: 600;
+        color: #ffffff;
+    }
+
+    .container-fluid {
+        display: flex;
+        max-width: 1200px;
+        margin: 40px auto;
+        gap: 20px;
+        padding: 0 15px;
+    }
+
+    .main-content {
+        flex: 3;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .sidebar {
+        flex: 1;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .video-player {
+        width: 100%;
+        background-color: #f9f9ff;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .video-player iframe {
+        width: 100%;
+        height: 450px;
+        border: none;
+    }
+
+    .course-info h2 {
+        font-size: 22px;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .course-info p {
+        margin: 0;
+        font-size: 16px;
+        color: #555;
+    }
+
+    .progress-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        font-weight: bold;
+        background: conic-gradient(#4caf50 calc(var(--progress, 0%) + 1%), #e0e0e0 0%);
+        margin-right: 10px;
+    }
+
+    .progress-circle span {
+        position: absolute;
+        color: #333;
+    }
+
+    .interaction-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        justify-content: center;
+    }
+
+    .interaction-buttons button {
+        padding: 12px;
+        flex: 1;
+        background-color: #0056b3;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s;
+    }
+
+    .interaction-buttons button:hover {
+        background-color: #003d75;
+    }
+
+    .sidebar {
+        max-height: 650px;
+        overflow-y: auto;
+        min-width: 336px;
+    }
+
+    .sidebar h3 {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .sidebar li {
+        font-size: 16px;
+        margin-bottom: 8px;
+        padding-left: 10px;
+        transition: color 0.3s;
+    }
+
+    .sidebar ul li ul {
+        margin-top: 5px;
+        margin-left: 15px;
+    }
+
+    .sidebar li a {
+        text-decoration: none;
+        color: #0056b3;
+    }
+
+    .sidebar li a:hover {
+        color: #003d75;
+        text-decoration: none;
+    }
+
+    .sidebar ul li .title {
+        font-weight: bold;
+        border-left: 3px solid #0056b3;
+        padding-left: 10px;
+        margin-left: -10px;
+        color: #ff0000;
+    }
+
+    .sidebar ul li ul li {
+        font-weight: normal;
+        color: #555;
+        display: flex;
+        flex-direction: nowrap;
+        margin-left: -35px;
+    }
+
+    .content-section {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .comments-section {
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #f1f4f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .interaction-buttons button {
+        padding: 10px 15px;
+        margin-right: 10px;
+        border: none;
+        border-radius: 6px;
+        background-color: #007bff;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .interaction-buttons button:hover {
+        background-color: #0056b3;
+    }
+
+    .content-section h4 {
+        margin-bottom: 15px;
+        color: #2c3e50;
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+    .content-section textarea,
+    .content-section input[type="tel"],
+    .content-section input[type="datetime-local"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+        margin-top: 8px;
+        margin-bottom: 12px;
+    }
+
+    .content-section .submit-button {
+        padding: 10px 15px;
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .content-section .submit-button:hover {
+        background-color: #218838;
+    }
+
+    /* Thông báo */
+    .success-message {
+        display: none;
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #d4edda;
+        color: #155724;
+        font-weight: 600;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    /* Bình luận */
+    .comments-list {
+        margin-top: 15px;
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
+    }
+
+    .comment-item {
+        margin-bottom: 15px;
+        padding: 10px 15px;
+        background-color: #f9f9f9;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .comment-item p {
+        margin: 0;
+        color: #444;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .comment-item strong {
+        color: #2c3e50;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .ThongtinKH {
+        color: #333;
+        margin-top: 30px;
+    }
+
+    .ThongtinKH p {
+        color: #555
+    }
+</style>

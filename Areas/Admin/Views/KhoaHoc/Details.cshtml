@@ -1,0 +1,138 @@
+@using aznews.Models;
+@model IList<tblKhoaHoc>;
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle text-center mb-4">
+        <h2 class="text-uppercase font-weight-bold text-primary">Thông Tin Khóa Học</h2>
+    </div>
+
+    <div class="container shadow p-5 bg-white rounded">
+        @foreach (var kh in Model.Take(1))
+        {
+            <div class="card mb-4 shadow-lg border-0">
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <img src="~/admin/@kh.Anh" alt="Ảnh đại diện khóa học" class="img-thumbnail shadow-lg"
+                            style="width: 50%; height: 250px; border-radius: 10px;">
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <h1 class="text-uppercase font-weight-bold text-info" style="font-size: 2rem;">@kh.TenKH</h1>
+                        <p class="text-secondary" style="font-size: 1.1rem;">Thời gian: @kh.ThoiGian</p>
+                    </div>
+
+                    <div class="row gy-4">
+                        <div class="col-md-6">
+                            <label class="form-label font-weight-bold text-secondary">Học Phí:</label>
+                            <p class="form-control-static text-dark">@kh.HocPhi</p>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <label class="form-label font-weight-bold text-secondary">Giáo viên:</label>
+                            <p class="form-control-static text-dark">@kh.GiaoVien?.HoTen</p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label font-weight-bold text-secondary">Môn:</label>
+                            <p class="form-control-static text-dark">@kh.Mon?.Mon</p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label font-weight-bold text-secondary">Lớp:</label>
+                            <p class="form-control-static text-dark">@kh.Lop</p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label font-weight-bold text-secondary">Trạng Thái:</label>
+                            <p class="form-control-static">
+                                <span class="badge bg-@((kh.HoatDong == true) ? "success" : "danger")">
+                                    @(kh.HoatDong == true ? "Đang diễn ra" : "Kết thúc")
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="text-center mt-5">
+            <a asp-controller="KhoaHoc" asp-action="Index" class="btn btn-primary px-5 py-3">
+                <i class="bi bi-arrow-left-circle"></i> Quay lại
+            </a>
+        </div>
+    </div>
+</main>
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    .pagetitle h2 {
+        color: #2c3e50;
+        border-bottom: 3px solid #3498db;
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+
+    .container {
+        border-radius: 20px;
+        background-color: #fff;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .card {
+        border-radius: 15px;
+        background-color: #f8f9fa;
+    }
+
+    .img-thumbnail {
+        border: 2px solid #dee2e6;
+        border-radius: 10px;
+    }
+
+    .form-label {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+    }
+
+    .form-control-static {
+        font-size: 1rem;
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 8px 12px;
+        border: 1px solid #dee2e6;
+    }
+
+    .badge-success {
+        background-color: #28a745;
+        color: white;
+        font-size: 1rem;
+        padding: 10px 15px;
+        border-radius: 10px;
+    }
+
+    .badge-danger {
+        background-color: #dc3545;
+        color: white;
+        font-size: 1rem;
+        padding: 10px 15px;
+        border-radius: 10px;
+    }
+
+    .btn-primary {
+        font-size: 1.2rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0069d9;
+        color: white;
+        transform: translateY(-3px);
+    }
+</style>

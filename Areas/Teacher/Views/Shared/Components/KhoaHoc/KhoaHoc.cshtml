@@ -1,0 +1,52 @@
+@using aznews.Models;
+@using aznews.Utilities;
+@model IList<viewKhoaHoc>;
+
+<!-- Top Selling -->
+<div class="col-12">
+    <div class="card top-selling overflow-auto">
+        <div class="filter">
+            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                    <h6>Danh sách</h6>
+                </li>
+                <li><a class="dropdown-item" href="#">Hiện tại</a></li>
+                <li><a class="dropdown-item" href="#">Trong tháng</a></li>
+                <li><a class="dropdown-item" href="#">Trong năm</a></li>
+            </ul>
+        </div>
+
+        <div class="card-body pb-0">
+            <h5 class="card-title">Top khóa học <span>| Hiện tại</span></h5>
+            <table class="table table-borderless">
+                using aznews.Utilities;
+                <thead>
+                    <tr>
+                        <th scope="col">Xem trước</th>
+                        <th scope="col">Tên khóa học</th>
+                        <th scope="col">Lớp</th>
+                        <th scope="col">Môn</th>
+                        <th scope="col">Số bài giảng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var top5KH = Model.Take(5).ToList();
+                        foreach (var t in top5KH)
+                        {
+                            string url = Functions.TitleSlugGeneration("BaiGiang", t.TenKH, t.IDKhoaHoc);
+                            <tr>
+                                <th scope="row"><a href="#"><img src="@t.Anh" alt=""></a></th>
+                                <td><a href="/@url" class="text-primary fw-bold">@t.TenKH</a></td>
+                                <td>@t.Lop</td>
+                                <td class="fw-bold">@t.Mon</td>
+                                <td>@t.SoBaiGiang</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
